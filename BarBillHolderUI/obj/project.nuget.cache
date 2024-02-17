@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "NXypQvgNkrXm+IRwdpRtK22wy8ZLZ3t2fij3Yk3XaQEr81i8VVAreZu6IqgHbiJluoQVZ2sNVnxcI1/c30LO3g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Mattheos\\source\\repos\\BarBillHolderUI\\BarBillHolderUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Mattheos\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",
+    "C:\\Users\\Mattheos\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
