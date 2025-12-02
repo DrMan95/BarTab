@@ -69,6 +69,7 @@ namespace Bar.WebApi.Controllers
                 BarBillHolderLibrary.Models.Bar.register = new Register();
 
             var total = table.bill.total;
+            decimal cardFee = 1.1M;
 
             switch (request.PaymentMethod?.ToLowerInvariant())
             {
@@ -76,7 +77,7 @@ namespace Bar.WebApi.Controllers
                     BarBillHolderLibrary.Models.Bar.register.cash += total;
                     break;
                 case "card":
-                    BarBillHolderLibrary.Models.Bar.register.card += total;
+                    BarBillHolderLibrary.Models.Bar.register.card += total * cardFee;
                     break;
                 default:
                     return BadRequest("PaymentMethod must be 'cash' or 'card'.");

@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-string filePath = @"C:\Users\nmarm\source\repos";
+string filePath = @"C:\Users\Mattheos\source\repos\BarTab";
 FileProcessor.InitializeFilePath(filePath);
 FileProcessor.ReadMenuFromCSV();
 

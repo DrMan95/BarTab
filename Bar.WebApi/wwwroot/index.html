@@ -586,12 +586,12 @@
 
             const btnCash = document.createElement("button");
             btnCash.className = "btn btn-primary";
-            btnCash.textContent = "Pay cash";
+            btnCash.textContent = "Pay cash: " + data.total.toFixed(2) + "€";
             btnCash.onclick = () => closeCurrentTable("cash");
 
             const btnCard = document.createElement("button");
             btnCard.className = "btn btn";
-            btnCard.textContent = "Pay card";
+            btnCard.textContent = "Pay card: " + (data.total * 1.1).toFixed(2) + "€";
             btnCard.onclick = () => closeCurrentTable("card");
 
             buttons.appendChild(btnCash);
