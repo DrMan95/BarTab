@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarBillHolderLibrary", "Bar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarBillHolderUI", "..\BarBillHolderUI\BarBillHolderUI.csproj", "{17262325-DC51-446E-96B5-EB7E84D99F2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bar.WebApi", "..\Bar.WebApi\Bar.WebApi.csproj", "{61291311-38A7-4D67-9C6D-979EC0387D75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{17262325-DC51-446E-96B5-EB7E84D99F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17262325-DC51-446E-96B5-EB7E84D99F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17262325-DC51-446E-96B5-EB7E84D99F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61291311-38A7-4D67-9C6D-979EC0387D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61291311-38A7-4D67-9C6D-979EC0387D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61291311-38A7-4D67-9C6D-979EC0387D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61291311-38A7-4D67-9C6D-979EC0387D75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

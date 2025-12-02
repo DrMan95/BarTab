@@ -1,0 +1,628 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\bar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\bar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\controllers\\reservationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\controllers\\tablescontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\baroverview.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\itemform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\moveform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\newcustomer.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\neworder.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\payform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\startingpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\barbillholderui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\bar.webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\bill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\bill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\table.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\table.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\parenttableandcustomer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\parenttableandcustomer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\iremove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\iremove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\controllers\\menucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\controllers\\registercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\historyform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\barbillholderlibrary.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:barbillholderlibrary.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61291311-38A7-4D67-9C6D-979EC0387D75}|..\\Bar.WebApi\\Bar.WebApi.csproj|c:\\users\\nmarm\\documents\\bartab\\bar.webapi\\bar.webapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\customeroverview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\baroverview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderlibrary\\database\\fileprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2292C8E4-E5E1-4819-B133-F5587B39B9BB}|BarBillHolderLibrary.csproj|solutionrelative:database\\fileprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\editmenupage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\neworder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\customeroverview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\baroverview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17262325-DC51-446E-96B5-EB7E84D99F2C}|..\\BarBillHolderUI\\BarBillHolderUI.csproj|c:\\users\\nmarm\\documents\\bartab\\barbillholderui\\historyform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 12,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Bar.WebApi",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Bar.WebApi.csproj",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Bar.WebApi.csproj",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Bar.WebApi.csproj",
+              "RelativeToolTip": "..\\Bar.WebApi\\Bar.WebApi.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-02T17:29:04.568Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "newCustomer.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\newCustomer.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\newCustomer.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\newCustomer.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\newCustomer.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:46:30.665Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "newOrder.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\newOrder.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\newOrder.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\newOrder.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\newOrder.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:46:24.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PayForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\PayForm.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\PayForm.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\PayForm.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\PayForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:46:20.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "StartingPage.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\StartingPage.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\StartingPage.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\StartingPage.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\StartingPage.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:46:14.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ReservationsController.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\ReservationsController.cs",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Controllers\\ReservationsController.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\ReservationsController.cs",
+              "RelativeToolTip": "..\\Bar.WebApi\\Controllers\\ReservationsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:11:06.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\index.html",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\wwwroot\\index.html",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\index.html",
+              "RelativeToolTip": "..\\Bar.WebApi\\wwwroot\\index.html",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAAAMAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-12-02T17:23:23.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Bill.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Bill.cs",
+              "RelativeDocumentMoniker": "Models\\Bill.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Bill.cs",
+              "RelativeToolTip": "Models\\Bill.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAYwBwAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:45:29.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Program.cs",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Program.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Program.cs",
+              "RelativeToolTip": "..\\Bar.WebApi\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T17:00:19.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TablesControllers.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\TablesControllers.cs",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Controllers\\TablesControllers.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\TablesControllers.cs",
+              "RelativeToolTip": "..\\Bar.WebApi\\Controllers\\TablesControllers.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAYwBgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T17:19:39.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Bar.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Bar.cs",
+              "RelativeDocumentMoniker": "Models\\Bar.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Bar.cs",
+              "RelativeToolTip": "Models\\Bar.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T16:51:17.61Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MoveForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\MoveForm.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\MoveForm.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\MoveForm.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\MoveForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:46:36.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BarOverview.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarOverview.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\BarOverview.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarOverview.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\BarOverview.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:46:49.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ItemForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\ItemForm.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\ItemForm.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\ItemForm.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\ItemForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:46:43.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Table.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Table.cs",
+              "RelativeDocumentMoniker": "Models\\Table.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Table.cs",
+              "RelativeToolTip": "Models\\Table.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:45:24.003Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IRemove.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\IRemove.cs",
+              "RelativeDocumentMoniker": "Models\\IRemove.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\IRemove.cs",
+              "RelativeToolTip": "Models\\IRemove.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:44:49.705Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Register.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Register.cs",
+              "RelativeDocumentMoniker": "Models\\Register.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Register.cs",
+              "RelativeToolTip": "Models\\Register.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:44:46.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ParentTableAndCustomer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\ParentTableAndCustomer.cs",
+              "RelativeDocumentMoniker": "Models\\ParentTableAndCustomer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\ParentTableAndCustomer.cs",
+              "RelativeToolTip": "Models\\ParentTableAndCustomer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:44:45.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "Models\\Customer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Customer.cs",
+              "RelativeToolTip": "Models\\Customer.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAIwA8AAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T17:50:18.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "BarBillHolderUI.csproj",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarBillHolderUI.csproj",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\BarBillHolderUI.csproj",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarBillHolderUI.csproj",
+              "RelativeToolTip": "..\\BarBillHolderUI\\BarBillHolderUI.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-24T07:56:29.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "RegisterController.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\RegisterController.cs",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Controllers\\RegisterController.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\RegisterController.cs",
+              "RelativeToolTip": "..\\Bar.WebApi\\Controllers\\RegisterController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T17:20:43.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Bar.WebApi",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Bar.WebApi.csproj",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Bar.WebApi.csproj",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Bar.WebApi.csproj",
+              "RelativeToolTip": "..\\Bar.WebApi\\Bar.WebApi.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-02T17:05:22.417Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\Program.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\Program.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\Program.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:23:40.856Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Item.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Item.cs",
+              "RelativeDocumentMoniker": "Models\\Item.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Models\\Item.cs",
+              "RelativeToolTip": "Models\\Item.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:44:44.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MenuController.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\MenuController.cs",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Controllers\\MenuController.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Controllers\\MenuController.cs",
+              "RelativeToolTip": "..\\Bar.WebApi\\Controllers\\MenuController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T17:02:57.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "HistoryForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\HistoryForm.Designer.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\HistoryForm.Designer.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\HistoryForm.Designer.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\HistoryForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T17:45:17.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Reservation.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Reservation.cs",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Reservation.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Reservation.cs",
+              "RelativeToolTip": "..\\Bar.WebApi\\Reservation.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAkwFAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T18:10:28.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "BarBillHolderLibrary",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\BarBillHolderLibrary.csproj",
+              "RelativeDocumentMoniker": "BarBillHolderLibrary.csproj",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\BarBillHolderLibrary.csproj",
+              "RelativeToolTip": "BarBillHolderLibrary.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-02T17:05:23.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "..\\Bar.WebApi\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\Properties\\launchSettings.json",
+              "RelativeToolTip": "..\\Bar.WebApi\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-02T17:29:57.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "BarOverview.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarOverview.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\BarOverview.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarOverview.cs [Design]",
+              "RelativeToolTip": "..\\BarBillHolderUI\\BarOverview.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T16:50:18.18Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "CustomerOverview.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\CustomerOverview.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\CustomerOverview.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\CustomerOverview.cs [Design]",
+              "RelativeToolTip": "..\\BarBillHolderUI\\CustomerOverview.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T16:50:23.19Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "EditMenuPage.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\EditMenuPage.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\EditMenuPage.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\EditMenuPage.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\EditMenuPage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T07:51:04.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "HistoryForm.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\HistoryForm.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\HistoryForm.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\HistoryForm.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\HistoryForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T07:51:04.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "FileProcessor.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Database\\FileProcessor.cs",
+              "RelativeDocumentMoniker": "Database\\FileProcessor.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderLibrary\\Database\\FileProcessor.cs",
+              "RelativeToolTip": "Database\\FileProcessor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T07:51:04.582Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "BarOverview.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarOverview.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\BarOverview.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\BarOverview.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\BarOverview.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAQwFUAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T07:51:04.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "CustomerOverview.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\CustomerOverview.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\CustomerOverview.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\CustomerOverview.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\CustomerOverview.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAuwH4AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T07:51:04.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "newOrder.cs",
+              "DocumentMoniker": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\newOrder.cs",
+              "RelativeDocumentMoniker": "..\\BarBillHolderUI\\newOrder.cs",
+              "ToolTip": "C:\\Users\\nmarm\\Documents\\BarTab\\BarBillHolderUI\\newOrder.cs",
+              "RelativeToolTip": "..\\BarBillHolderUI\\newOrder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T07:51:04.588Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

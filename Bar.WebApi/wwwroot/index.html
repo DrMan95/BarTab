@@ -1,0 +1,879 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>BarakiBar - Web PDA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #111827;
+            color: #e5e7eb;
+        }
+
+        #app {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background: #020617;
+            border-right: 1px solid #1f2937;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .main {
+            padding: 1rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        h1, h2, h3 {
+            margin: 0 0 .75rem 0;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #9ca3af;
+            margin-top: 1.25rem;
+            margin-bottom: .5rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .table-item {
+            padding: .5rem .6rem;
+            border-radius: .5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: .9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            margin-bottom: .25rem;
+        }
+
+            .table-item:hover {
+                background: #020617;
+                border-color: #1f2937;
+            }
+
+            .table-item.active {
+                background: #1e293b;
+                border-color: #38bdf8;
+            }
+
+        .pill {
+            padding: .1rem .5rem;
+            border-radius: 999px;
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .pill-open {
+            background: rgba(16, 185, 129, .15);
+            color: #6ee7b7;
+        }
+
+        .pill-closed {
+            background: rgba(248, 250, 252, .05);
+            color: #9ca3af;
+        }
+
+        .pill-upcoming {
+            background: rgba(56,189,248,.1);
+            color: #7dd3fc;
+        }
+
+        .pill-completed {
+            background: rgba(34,197,94,.1);
+            color: #6ee7b7;
+        }
+
+        .pill-cancelled {
+            background: rgba(248,113,113,.1);
+            color: #fecaca;
+        }
+
+        .money {
+            font-variant-numeric: tabular-nums;
+            font-size: .8rem;
+            color: #9ca3af;
+        }
+
+        .card {
+            border-radius: .75rem;
+            border: 1px solid #1f2937;
+            background: radial-gradient(circle at top left, rgba(56,189,248,.12), transparent 55%), #020617;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: .75rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .85rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: .35rem .25rem;
+        }
+
+        th {
+            color: #9ca3af;
+            font-weight: 500;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        tbody tr:nth-child(odd) {
+            background: rgba(15,23,42,.4);
+        }
+
+        .btn {
+            border-radius: .5rem;
+            border: 1px solid transparent;
+            padding: .4rem .7rem;
+            font-size: .8rem;
+            cursor: pointer;
+            background: #0f172a;
+            color: #e5e7eb;
+        }
+
+            .btn:hover {
+                background: #111827;
+                border-color: #1f2937;
+            }
+
+        .btn-primary {
+            background: #38bdf8;
+            color: #0b1120;
+        }
+
+            .btn-primary:hover {
+                background: #0ea5e9;
+            }
+
+        .btn-ghost {
+            background: transparent;
+            border-color: #1f2937;
+        }
+
+        .btn-sm {
+            padding: .2rem .4rem;
+            font-size: .75rem;
+        }
+
+        .badge {
+            font-size: .7rem;
+            padding: .15rem .4rem;
+            border-radius: .5rem;
+            border: 1px solid #1f2937;
+            background: rgba(15,23,42,.8);
+            color: #9ca3af;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: .5rem;
+        }
+
+        .menu-item {
+            border-radius: .75rem;
+            border: 1px solid #1f2937;
+            background: #020617;
+            padding: .5rem .6rem;
+            display: flex;
+            flex-direction: column;
+            gap: .25rem;
+            font-size: .8rem;
+        }
+
+        .menu-name {
+            font-weight: 500;
+        }
+
+        .menu-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .menu-footer {
+            margin-top: .3rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .register-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0,1fr));
+            gap: .4rem;
+            font-size: .78rem;
+        }
+
+        .reg-label {
+            color: #9ca3af;
+            margin-bottom: .1rem;
+        }
+
+        .reservations-list {
+            max-height: 220px;
+            overflow-y: auto;
+            margin-bottom: .5rem;
+        }
+
+        .reservation-item {
+            font-size: .78rem;
+            padding: .3rem .4rem;
+            border-radius: .5rem;
+            border: 1px solid #1f2937;
+            background: #020617;
+            margin-bottom: .25rem;
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .1rem;
+        }
+
+        .reservation-meta {
+            font-size: .7rem;
+            color: #9ca3af;
+            display: flex;
+            justify-content: space-between;
+            gap: .5rem;
+        }
+
+        .reservation-actions {
+            margin-top: .2rem;
+            display: flex;
+            gap: .25rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: .25rem;
+            margin-top: .25rem;
+        }
+
+        .input, .input-sm {
+            background: #020617;
+            border-radius: .4rem;
+            border: 1px solid #1f2937;
+            padding: .3rem .4rem;
+            color: #e5e7eb;
+            font-size: .75rem;
+            width: 100%;
+        }
+
+        .input-sm {
+            padding: .25rem .35rem;
+            font-size: .73rem;
+        }
+
+            .input::placeholder, .input-sm::placeholder {
+                color: #6b7280;
+            }
+
+            .input:focus, .input-sm:focus {
+                outline: none;
+                border-color: #38bdf8;
+            }
+
+        .small-label {
+            font-size: .7rem;
+            color: #9ca3af;
+            margin-bottom: .15rem;
+        }
+
+        .custom-item-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr auto;
+            gap: .4rem;
+            align-items: flex-end;
+            margin-top: .5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <aside class="sidebar">
+            <h1 style="font-size:1.1rem;margin-bottom:.2rem;">🍸 BarakiBar</h1>
+            <div style="font-size:.8rem;color:#9ca3af;margin-bottom:1rem;">Web PDA</div>
+
+            <div class="section-title">Tables</div>
+            <ul id="tables-list"></ul>
+
+            <div class="section-title">Register</div>
+            <div id="register-card" class="card" style="padding:.6rem .7rem;">
+                <div class="register-grid">
+                    <div>
+                        <div class="reg-label">Cash</div>
+                        <div class="money" id="reg-cash">-</div>
+                    </div>
+                    <div>
+                        <div class="reg-label">Card</div>
+                        <div class="money" id="reg-card">-</div>
+                    </div>
+                    <div>
+                        <div class="reg-label">Pending</div>
+                        <div class="money" id="reg-pending">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Reservations</div>
+            <div id="reservations-card" class="card" style="padding:.6rem .7rem;">
+                <div class="small-label">Upcoming & history</div>
+                <div id="reservations-list" class="reservations-list"></div>
+
+                <div class="small-label" style="margin-top:.35rem;">New reservation</div>
+                <div class="form-row">
+                    <input id="res-name" class="input-sm" placeholder="Name" />
+                </div>
+                <div class="form-row">
+                    <input id="res-table" class="input-sm" placeholder="Table #" type="number" min="1" />
+                    <input id="res-time" class="input-sm" placeholder="Time (YYYY-MM-DD HH:MM)" />
+                </div>
+                <div class="form-row">
+                    <input id="res-notes" class="input-sm" placeholder="Notes (optional)" />
+                </div>
+                <div style="margin-top:.3rem;display:flex;justify-content:flex-end;">
+                    <button class="btn btn-primary btn-sm" onclick="createReservation()">Add</button>
+                </div>
+            </div>
+
+            <button class="btn-ghost btn" onclick="refreshAll()">⟳ Refresh</button>
+        </aside>
+
+        <main class="main">
+            <div class="card" id="table-card">
+                <div class="card-header">
+                    <div>
+                        <h2 id="table-title">Select a table</h2>
+                        <div style="font-size:.8rem;color:#9ca3af;" id="table-subtitle">No table selected.</div>
+                    </div>
+                    <div id="table-status"></div>
+                </div>
+
+                <div id="table-content">
+                    <p style="font-size:.85rem;color:#9ca3af;">Choose a table from the list on the left to see its current order.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Menu</h3>
+                    <div>
+                        <span class="badge" id="menu-count">0 items</span>
+                        <span style="margin-left:.4rem;font-size:.75rem;color:#9ca3af;">Click a table, then add items from here.</span>
+                    </div>
+                </div>
+                <div id="menu-content">
+                    <div id="menu-grid" class="menu-grid"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const apiBase = "";  // same origin
+
+        let currentTableId = null;
+        let menuItems = [];
+
+        async function fetchJson(url, options) {
+            const res = await fetch(url, options);
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || res.statusText);
+            }
+            return res.status === 204 ? null : res.json();
+        }
+
+        async function loadTables() {
+            const data = await fetchJson(apiBase + "/api/tables");
+            const listEl = document.getElementById("tables-list");
+            listEl.innerHTML = "";
+
+            data.forEach(t => {
+                const li = document.createElement("li");
+                li.className = "table-item";
+                if (t.id === currentTableId) li.classList.add("active");
+                li.onclick = () => selectTable(t.id);
+
+                const left = document.createElement("div");
+                left.textContent = "Table " + t.id + (t.name ? " – " + t.name : "");
+
+                const right = document.createElement("div");
+                right.style.display = "flex";
+                right.style.flexDirection = "column";
+                right.style.alignItems = "flex-end";
+
+                const pill = document.createElement("div");
+                pill.className = "pill " + (t.open ? "pill-open" : "pill-closed");
+                pill.textContent = t.open ? "Open" : "Free";
+
+                const total = document.createElement("div");
+                total.className = "money";
+                total.textContent = t.total.toFixed(2) + " €";
+
+                right.appendChild(pill);
+                right.appendChild(total);
+
+                li.appendChild(left);
+                li.appendChild(right);
+                listEl.appendChild(li);
+            });
+        }
+
+        async function loadRegister() {
+            try {
+                const data = await fetchJson(apiBase + "/api/register");
+                document.getElementById("reg-cash").textContent = data.cash.toFixed(2) + " €";
+                document.getElementById("reg-card").textContent = data.card.toFixed(2) + " €";
+                document.getElementById("reg-pending").textContent = data.pending.toFixed(2) + " €";
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function loadMenu() {
+            menuItems = await fetchJson(apiBase + "/api/menu");
+            const grid = document.getElementById("menu-grid");
+            grid.innerHTML = "";
+            document.getElementById("menu-count").textContent = menuItems.length + " items";
+
+            menuItems.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "menu-item";
+
+                const nameEl = document.createElement("div");
+                nameEl.className = "menu-name";
+                nameEl.textContent = item.name;
+
+                const meta = document.createElement("div");
+                meta.className = "menu-meta";
+
+                const cat = document.createElement("span");
+                cat.className = "badge";
+                cat.textContent = item.category;
+
+                const price = document.createElement("span");
+                price.className = "money";
+                price.textContent = item.price.toFixed(2) + " €";
+
+                meta.appendChild(cat);
+                meta.appendChild(price);
+
+                const footer = document.createElement("div");
+                footer.className = "menu-footer";
+
+                const btn = document.createElement("button");
+                btn.className = "btn btn-primary";
+                btn.textContent = "Add to table";
+                btn.onclick = () => addItemToCurrentTable(item);
+
+                footer.appendChild(btn);
+
+                card.appendChild(nameEl);
+                card.appendChild(meta);
+                card.appendChild(footer);
+
+                grid.appendChild(card);
+            });
+        }
+
+        async function selectTable(id) {
+            currentTableId = id;
+            await loadTableDetails(id);
+            await loadTables(); // refresh highlighting & totals
+        }
+
+        async function loadTableDetails(id) {
+            const data = await fetchJson(apiBase + "/api/tables/" + id);
+
+            const title = document.getElementById("table-title");
+            const subtitle = document.getElementById("table-subtitle");
+            const status = document.getElementById("table-status");
+            const content = document.getElementById("table-content");
+
+            title.textContent = "Table " + data.id + (data.name ? " – " + data.name : "");
+            subtitle.textContent = data.open
+                ? "Open bill – " + data.total.toFixed(2) + " €"
+                : "Currently free";
+
+            status.innerHTML = "";
+            const pill = document.createElement("div");
+            pill.className = "pill " + (data.open ? "pill-open" : "pill-closed");
+            pill.textContent = data.open ? "Open" : "Free";
+            status.appendChild(pill);
+
+            if (!data.open && (!data.items || data.items.length === 0)) {
+                const wrapper = document.createElement("div");
+                const msg = document.createElement("p");
+                msg.style.fontSize = ".85rem";
+                msg.style.color = "#9ca3af";
+                msg.textContent = "No active order. Use the menu below or the form to start one.";
+
+                wrapper.appendChild(msg);
+                wrapper.appendChild(buildCustomItemForm(data.id));
+
+                content.innerHTML = "";
+                content.appendChild(wrapper);
+                return;
+            }
+
+            const wrapper = document.createElement("div");
+            const table = document.createElement("table");
+
+            const thead = document.createElement("thead");
+            thead.innerHTML = "<tr><th>Item</th><th>Category</th><th style='text-align:right;'>Price</th></tr>";
+            table.appendChild(thead);
+
+            const tbody = document.createElement("tbody");
+            data.items.forEach(i => {
+                const tr = document.createElement("tr");
+                const tdName = document.createElement("td");
+                const tdCat = document.createElement("td");
+                const tdPrice = document.createElement("td");
+                tdPrice.style.textAlign = "right";
+
+                tdName.textContent = i.name;
+                tdCat.textContent = i.category;
+                tdPrice.textContent = i.price.toFixed(2) + " €";
+
+                tr.appendChild(tdName);
+                tr.appendChild(tdCat);
+                tr.appendChild(tdPrice);
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+
+            const footer = document.createElement("div");
+            footer.style.display = "flex";
+            footer.style.justifyContent = "space-between";
+            footer.style.alignItems = "center";
+            footer.style.marginTop = ".6rem";
+
+            const totalEl = document.createElement("div");
+            totalEl.innerHTML = "<span style='color:#9ca3af;font-size:.8rem;'>Total:</span> <span class='money' style='font-size:.9rem;'>" + data.total.toFixed(2) + " €</span>";
+
+            const buttons = document.createElement("div");
+            buttons.style.display = "flex";
+            buttons.style.gap = ".4rem";
+
+            const btnCash = document.createElement("button");
+            btnCash.className = "btn btn-primary";
+            btnCash.textContent = "Pay cash";
+            btnCash.onclick = () => closeCurrentTable("cash");
+
+            const btnCard = document.createElement("button");
+            btnCard.className = "btn btn";
+            btnCard.textContent = "Pay card";
+            btnCard.onclick = () => closeCurrentTable("card");
+
+            buttons.appendChild(btnCash);
+            buttons.appendChild(btnCard);
+
+            footer.appendChild(totalEl);
+            footer.appendChild(buttons);
+
+            wrapper.appendChild(table);
+            wrapper.appendChild(footer);
+            wrapper.appendChild(buildCustomItemForm(data.id));
+
+            content.innerHTML = "";
+            content.appendChild(wrapper);
+        }
+
+        function buildCustomItemForm(tableId) {
+            const container = document.createElement("div");
+            container.style.marginTop = ".6rem";
+
+            const label = document.createElement("div");
+            label.className = "small-label";
+            label.textContent = "Add custom item to this table";
+            container.appendChild(label);
+
+            const row = document.createElement("div");
+            row.className = "custom-item-row";
+
+            const nameInput = document.createElement("input");
+            nameInput.className = "input-sm";
+            nameInput.placeholder = "Name (e.g. Custom item)";
+
+            const catInput = document.createElement("input");
+            catInput.className = "input-sm";
+            catInput.placeholder = "Category (e.g. Extra)";
+
+            const priceInput = document.createElement("input");
+            priceInput.className = "input-sm";
+            priceInput.placeholder = "Price";
+            priceInput.type = "number";
+            priceInput.step = "0.01";
+            priceInput.min = "0";
+
+            const btn = document.createElement("button");
+            btn.className = "btn btn-primary btn-sm";
+            btn.textContent = "Add";
+            btn.onclick = () => addCustomItemFromForm(tableId, nameInput, catInput, priceInput);
+
+            row.appendChild(nameInput);
+            row.appendChild(catInput);
+            row.appendChild(priceInput);
+            row.appendChild(btn);
+
+            container.appendChild(row);
+            return container;
+        }
+
+        async function addCustomItemFromForm(tableId, nameInput, catInput, priceInput) {
+            const name = nameInput.value.trim();
+            const cat = catInput.value.trim() || "Misc";
+            const price = parseFloat(priceInput.value);
+
+            if (!name || isNaN(price)) {
+                alert("Please enter a name and a valid price.");
+                return;
+            }
+
+            const body = {
+                name: name,
+                category: cat,
+                price: price
+            };
+
+            await fetchJson(apiBase + "/api/tables/" + tableId + "/items", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            // clear inputs
+            nameInput.value = "";
+            catInput.value = "";
+            priceInput.value = "";
+
+            currentTableId = tableId;
+            await loadTableDetails(tableId);
+            await loadTables();
+            await loadRegister();
+        }
+
+        async function addItemToCurrentTable(menuItem) {
+            if (currentTableId === null) {
+                alert("Select a table first.");
+                return;
+            }
+
+            const body = {
+                name: menuItem.name,
+                category: menuItem.category,
+                price: menuItem.price
+            };
+
+            await fetchJson(apiBase + "/api/tables/" + currentTableId + "/items", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            await loadTableDetails(currentTableId);
+            await loadTables();
+            await loadRegister();
+        }
+
+        async function closeCurrentTable(method) {
+            if (currentTableId === null) return;
+
+            await fetchJson(apiBase + "/api/tables/" + currentTableId + "/close", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ paymentMethod: method })
+            });
+
+            await loadTables();
+            await loadRegister();
+            await loadTableDetails(currentTableId);
+        }
+
+        async function loadReservations() {
+            const listEl = document.getElementById("reservations-list");
+            listEl.innerHTML = "";
+
+            let data;
+            try {
+                data = await fetchJson(apiBase + "/api/reservations");
+            } catch (err) {
+                console.error(err);
+                listEl.textContent = "Error loading reservations.";
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                const empty = document.createElement("div");
+                empty.style.fontSize = ".78rem";
+                empty.style.color = "#9ca3af";
+                empty.textContent = "No reservations yet.";
+                listEl.appendChild(empty);
+                return;
+            }
+
+            const now = new Date();
+
+            data.forEach(r => {
+                const item = document.createElement("div");
+                item.className = "reservation-item";
+
+                const header = document.createElement("div");
+                header.className = "reservation-header";
+
+                const left = document.createElement("div");
+                left.textContent = r.name + " – Table " + r.tableId;
+
+                const pill = document.createElement("div");
+                pill.className = "pill ";
+                const statusLower = r.status.toLowerCase();
+                if (statusLower === "upcoming") pill.className += "pill-upcoming";
+                else if (statusLower === "completed") pill.className += "pill-completed";
+                else pill.className += "pill-cancelled";
+                pill.textContent = r.status;
+
+                header.appendChild(left);
+                header.appendChild(pill);
+
+                const meta = document.createElement("div");
+                meta.className = "reservation-meta";
+
+                const time = new Date(r.time);
+                const timeStr = time.toLocaleString(undefined, {
+                    year: "2-digit",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+
+                const timeEl = document.createElement("span");
+                timeEl.textContent = timeStr;
+
+                const notesEl = document.createElement("span");
+                notesEl.textContent = r.notes || "";
+
+                meta.appendChild(timeEl);
+                meta.appendChild(notesEl);
+
+                const actions = document.createElement("div");
+                actions.className = "reservation-actions";
+
+                const btnSelect = document.createElement("button");
+                btnSelect.className = "btn btn-ghost btn-sm";
+                btnSelect.textContent = "Go to table";
+                btnSelect.onclick = () => selectTable(r.tableId);
+
+                const btnDone = document.createElement("button");
+                btnDone.className = "btn btn-sm";
+                btnDone.textContent = "Done";
+                btnDone.onclick = () => updateReservationStatus(r.id, "Completed");
+
+                const btnCancel = document.createElement("button");
+                btnCancel.className = "btn btn-sm";
+                btnCancel.textContent = "Cancel";
+                btnCancel.onclick = () => updateReservationStatus(r.id, "Cancelled");
+
+                actions.appendChild(btnSelect);
+                actions.appendChild(btnDone);
+                actions.appendChild(btnCancel);
+
+                item.appendChild(header);
+                item.appendChild(meta);
+                item.appendChild(actions);
+
+                listEl.appendChild(item);
+            });
+        }
+
+        async function createReservation() {
+            const nameEl = document.getElementById("res-name");
+            const tableEl = document.getElementById("res-table");
+            const timeEl = document.getElementById("res-time");
+            const notesEl = document.getElementById("res-notes");
+
+            const name = nameEl.value.trim();
+            const tableId = parseInt(tableEl.value, 10);
+            const timeText = timeEl.value.trim();
+            const notes = notesEl.value.trim() || null;
+
+            if (!name || isNaN(tableId) || !timeText) {
+                alert("Please fill name, table and time.");
+                return;
+            }
+
+            // Convert "YYYY-MM-DD HH:MM" to ISO-ish string
+            const standardized = timeText.replace(" ", "T");
+
+            await fetchJson(apiBase + "/api/reservations", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: name,
+                    tableId: tableId,
+                    time: standardized,
+                    notes: notes
+                })
+            });
+
+            nameEl.value = "";
+            tableEl.value = "";
+            timeEl.value = "";
+            notesEl.value = "";
+
+            await loadReservations();
+        }
+
+        async function updateReservationStatus(id, status) {
+            await fetchJson(apiBase + "/api/reservations/" + id + "/status", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: status })
+            });
+            await loadReservations();
+        }
+
+        async function refreshAll() {
+            await Promise.all([
+                loadTables(),
+                loadRegister(),
+                loadMenu(),
+                loadReservations()
+            ]);
+        }
+
+        window.addEventListener("load", () => {
+            refreshAll().catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>
