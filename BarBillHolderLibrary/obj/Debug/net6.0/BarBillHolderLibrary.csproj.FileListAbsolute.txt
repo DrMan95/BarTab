@@ -10,3 +10,16 @@ C:\Users\Mattheos\source\repos\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHold
 C:\Users\Mattheos\source\repos\BarBillHolderLibrary\obj\Debug\net6.0\refint\BarBillHolderLibrary.dll
 C:\Users\Mattheos\source\repos\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.pdb
 C:\Users\Mattheos\source\repos\BarBillHolderLibrary\obj\Debug\net6.0\ref\BarBillHolderLibrary.dll
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\bin\Debug\net6.0\BarBillHolderLibrary.deps.json
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\bin\Debug\net6.0\BarBillHolderLibrary.dll
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\bin\Debug\net6.0\BarBillHolderLibrary.pdb
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.csproj.AssemblyReference.cache
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.AssemblyInfoInputs.cache
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.AssemblyInfo.cs
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.csproj.CoreCompileInputs.cache
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.sourcelink.json
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.dll
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\refint\BarBillHolderLibrary.dll
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\BarBillHolderLibrary.pdb
+C:\Users\nmarm\Documents\BarTab\BarBillHolderLibrary\obj\Debug\net6.0\ref\BarBillHolderLibrary.dll
