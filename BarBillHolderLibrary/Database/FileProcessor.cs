@@ -93,7 +93,7 @@ namespace BarBillHolderLibrary.Database
         private static List<Table> ParseTablesFromJSON(JsonElement tablesJSON)
         {
             List<Table> tables = new();
-            for(int i=0; i<14; i++)
+            for (int i = 0; i < 14; i++)
             {
                 if (bool.Parse(tablesJSON[i].GetProperty("open").ToString()))
                 {
