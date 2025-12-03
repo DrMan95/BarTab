@@ -13,15 +13,21 @@ namespace BarBillHolderLibrary.Database
         public static string historyCSV { get; set; }
 
 
-        public static void InitializeFilePath(string filePath)
+        public static void InitializeFilePath(string basePath)
         {
-            FileProcessor.barDataFile = $"{filePath}\\Data\\{FileNames.BAR_DATA}";
-            if(!File.Exists(FileProcessor.barDataFile))
+            var dataDir = Path.Combine(basePath, "Data");
+            Directory.CreateDirectory(dataDir);  // make sure it exists
+
+            barDataFile = Path.Combine(dataDir, FileNames.BAR_DATA);
+            if (!File.Exists(barDataFile))
             {
-                File.Create(FileProcessor.barDataFile);
+                using (File.Create(barDataFile)) { }
             }
-            FileProcessor.menuCSV = $"{filePath}\\Data\\{FileNames.MENU_CSV}";
-            FileProcessor.historyCSV = $"{filePath}\\History";
+
+            menuCSV = Path.Combine(dataDir, FileNames.MENU_CSV);
+
+            historyCSV = Path.Combine(basePath, "History");
+            Directory.CreateDirectory(historyCSV);
         }
 
         public static bool FileBarIsEmpty()
