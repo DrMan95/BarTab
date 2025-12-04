@@ -42,7 +42,8 @@ namespace Bar.WebApi.Controllers
             var dto = new RegisterDto(
                 Cash: BarBillHolderLibrary.Models.Bar.register.cash,
                 Card: BarBillHolderLibrary.Models.Bar.register.card,
-                Pending: pending
+                Pending: pending,
+                Tips: BarBillHolderLibrary.Models.Bar.register.tips
             );
 
             return Ok(dto);
@@ -52,6 +53,7 @@ namespace Bar.WebApi.Controllers
     public record RegisterDto(
         decimal Cash,
         decimal Card,
-        decimal Pending
+        decimal Pending,
+        decimal Tips
     );
 }

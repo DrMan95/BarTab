@@ -138,28 +138,27 @@ namespace Bar.WebApi.Controllers
             if (BarState.register == null)
                 BarState.register = new Register();
 
-            var total = table.bill.total;
             var tip = request.Tip ?? 0m;
+            var discount = request.DiscountPercent ?? 0m;
+            var total = table.bill.total - (discount/100 * table.bill.total);
             var method = request.PaymentMethod?.ToLowerInvariant();
-
-            decimal multiplier;
+            // 10% extra fee
+            decimal multiplier = 1.1m;
 
             switch (method)
             {
                 case "cash":
-                    multiplier = 1.0m;
-                    BarState.register.cash += total * multiplier + tip;
+                    BarState.register.cash += total;
                     break;
 
                 case "card":
-                    // 10% extra fee
-                    multiplier = 1.1m;
-                    BarState.register.card += total * multiplier + tip;
+                    BarState.register.card += total * multiplier;
                     break;
 
                 default:
                     return BadRequest("PaymentMethod must be 'cash' or 'card'.");
             }
+             BarState.register.tips += tip;
 
             // --- HERE is the bar-table vs normal-table behaviour ---
             const int BaseTableCount = 14;           // same logic as JS BASE_TABLE_COUNT
@@ -269,22 +268,21 @@ namespace Bar.WebApi.Controllers
             var tip = request.Tip ?? 0m;
             var method = request.PaymentMethod?.ToLowerInvariant();
 
-            decimal multiplier;
+            decimal multiplier = 1.1m; // extra fee on selected items
             switch (method)
             {
                 case "cash":
-                    multiplier = 1.0m;
-                    BarState.register.cash += subtotal * multiplier + tip;
+                    BarState.register.cash += subtotal;
                     break;
 
                 case "card":
-                    multiplier = 1.1m; // extra fee on selected items
-                    BarState.register.card += subtotal * multiplier + tip;
+                    BarState.register.card += subtotal * multiplier;
                     break;
 
                 default:
                     return BadRequest("PaymentMethod must be 'cash' or 'card'.");
             }
+            BarState.register.tips += tip;
 
             // Remove selected items from the bill (from highest index downwards)
             for (int i = indices.Count - 1; i >= 0; i--)

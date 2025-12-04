@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -303,6 +303,10 @@
                         <div class="money" id="reg-card">-</div>
                     </div>
                     <div>
+                        <div class="reg-label">Tips</div>
+                        <div class="money" id="reg-tips">-</div>
+                    </div>
+                    <div>
                         <div class="reg-label">Pending</div>
                         <div class="money" id="reg-pending">-</div>
                     </div>
@@ -505,6 +509,7 @@
                 document.getElementById("reg-cash").textContent = data.cash.toFixed(2) + " €";
                 document.getElementById("reg-card").textContent = data.card.toFixed(2) + " €";
                 document.getElementById("reg-pending").textContent = data.pending.toFixed(2) + " €";
+                document.getElementById("reg-tips").textContent = data.tips.toFixed(2) + " €";
             } catch (err) {
                 console.error(err);
             }
@@ -776,54 +781,13 @@
             leftSide.appendChild(totalEl);
             leftSide.appendChild(selectedEl);
 
-            // Right side: tip + buttons + move
+            // Right side: tip + discount + buttons + move
             const rightSide = document.createElement("div");
             rightSide.style.display = "flex";
             rightSide.style.flexDirection = "column";
             rightSide.style.alignItems = "flex-end";
             rightSide.style.gap = ".3rem";
 
-            // Buttons full pay
-            const buttons = document.createElement("div");
-            buttons.style.display = "flex";
-            buttons.style.gap = ".4rem";
-
-            const btnCash = document.createElement("button");
-            btnCash.className = "btn btn-primary";
-            btnCash.textContent = "Pay full cash: " + data.total.toFixed(2) + "€";
-            btnCash.onclick = () => closeCurrentTable("cash");
-
-            const btnCard = document.createElement("button");
-            btnCard.className = "btn btn";
-            btnCard.textContent = "Pay full card: " + (data.total * 1.1).toFixed(2) + "€";
-            btnCard.onclick = () => closeCurrentTable("card");
-
-            buttons.appendChild(btnCash);
-            buttons.appendChild(btnCard);
-
-            // Buttons partial pay
-            const partialButtons = document.createElement("div");
-            partialButtons.style.display = "flex";
-            partialButtons.style.gap = ".4rem";
-
-            const btnSelCash = document.createElement("button");
-            btnSelCash.className = "btn btn-sm";
-            btnSelCash.textContent = "Pay selected (cash)";
-            btnSelCash.onclick = () => paySelectedItems("cash");
-
-            const btnSelCard = document.createElement("button");
-            btnSelCard.className = "btn btn-sm";
-            btnSelCard.textContent = "Pay selected (card)";
-            btnSelCard.onclick = () => paySelectedItems("card");
-
-            const btnRemove = document.createElement("button");
-            btnRemove.className = "btn btn-ghost btn-sm";
-            btnRemove.textContent = "Remove selected";
-            btnRemove.onclick = () => removeSelectedItems();
-
-            partialButtons.appendChild(btnSelCash);
-            partialButtons.appendChild(btnSelCard);
-            partialButtons.appendChild(btnRemove);
 
             // Tip input
             const tipContainer = document.createElement("div");
@@ -871,6 +835,50 @@
 
             discountContainer.appendChild(discountLabel);
             discountContainer.appendChild(discountInput);
+
+            // Buttons full pay
+            const buttons = document.createElement("div");
+            buttons.style.display = "flex";
+            buttons.style.gap = ".4rem";
+
+            var discount = document.getElementById("discount-input") ? parseFloat(document.getElementById("discount-input").value) || 0 : 0;
+            var cardFee = 1.1;
+            const btnCash = document.createElement("button");
+            btnCash.className = "btn btn-primary";
+            btnCash.textContent = "Pay all cash: " + (data.total - discount).toFixed(2) + "€";
+            btnCash.onclick = () => closeCurrentTable("cash");
+
+            const btnCard = document.createElement("button");
+            btnCard.className = "btn btn";
+            btnCard.textContent = "Pay all card: " + ((data.total - discount) * cardFee).toFixed(2) + "€";
+            btnCard.onclick = () => closeCurrentTable("card");
+
+            buttons.appendChild(btnCash);
+            buttons.appendChild(btnCard);
+
+            // Buttons partial pay
+            const partialButtons = document.createElement("div");
+            partialButtons.style.display = "flex";
+            partialButtons.style.gap = ".4rem";
+
+            const btnSelCash = document.createElement("button");
+            btnSelCash.className = "btn btn-sm";
+            btnSelCash.textContent = "Pay selected (cash)";
+            btnSelCash.onclick = () => paySelectedItems("cash");
+
+            const btnSelCard = document.createElement("button");
+            btnSelCard.className = "btn btn-sm";
+            btnSelCard.textContent = "Pay selected (card)";
+            btnSelCard.onclick = () => paySelectedItems("card");
+
+            const btnRemove = document.createElement("button");
+            btnRemove.className = "btn btn-ghost btn-sm";
+            btnRemove.textContent = "Remove selected";
+            btnRemove.onclick = () => removeSelectedItems();
+
+            partialButtons.appendChild(btnSelCash);
+            partialButtons.appendChild(btnSelCard);
+            partialButtons.appendChild(btnRemove);
 
 
             // Move to another table

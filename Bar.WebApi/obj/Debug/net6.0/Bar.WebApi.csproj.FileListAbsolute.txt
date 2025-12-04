@@ -76,3 +76,4 @@ C:\Users\Mattheos\source\repos\BarTab\Bar.WebApi\obj\Debug\net6.0\refint\Bar.Web
 C:\Users\Mattheos\source\repos\BarTab\Bar.WebApi\obj\Debug\net6.0\Bar.WebApi.pdb
 C:\Users\Mattheos\source\repos\BarTab\Bar.WebApi\obj\Debug\net6.0\Bar.WebApi.genruntimeconfig.cache
 C:\Users\Mattheos\source\repos\BarTab\Bar.WebApi\obj\Debug\net6.0\ref\Bar.WebApi.dll
+C:\Users\Mattheos\source\repos\BarTab\Bar.WebApi\bin\Debug\net6.0\Data\BarsData.json

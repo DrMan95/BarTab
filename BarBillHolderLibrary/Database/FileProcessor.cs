@@ -48,7 +48,8 @@ namespace BarBillHolderLibrary.Database
             Bar.customers = ParseCustomersFromJSON(root[0].GetProperty("customers"));
             Bar.register = new Register(
                                         decimal.Parse(root[0].GetProperty("register").GetProperty("cash").ToString()),
-                                        decimal.Parse(root[0].GetProperty("register").GetProperty("card").ToString())
+                                        decimal.Parse(root[0].GetProperty("register").GetProperty("card").ToString()),
+                                        decimal.Parse(root[0].GetProperty("register").GetProperty("tips").ToString())
                                         );
         }
 
