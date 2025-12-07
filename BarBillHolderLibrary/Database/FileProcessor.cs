@@ -262,7 +262,7 @@ namespace BarBillHolderLibrary.Database
 
             File.WriteAllLines(FileProcessor.menuCSV, lines);
         }
-        public static void SaveToPaymentHistory(string name, Bill bill)
+        public static void SaveToPaymentHistory(string name, Bill bill, decimal tips)
         {
             DateTime now = DateTime.Now;
             string folder = FileProcessor.historyCSV + $"\\{now.Day}-{now.Month}-{now.Year}";
@@ -272,6 +272,8 @@ namespace BarBillHolderLibrary.Database
             {
                 lines.Add($"{now.Hour}:{now.Minute},{item.name},{item.price}");
             }
+            lines.Add($"{now.Hour}:{now.Minute},{"tips"},{tips}");
+            //lines.Add("----------------------------------------");
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);

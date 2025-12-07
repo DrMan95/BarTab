@@ -158,7 +158,9 @@ namespace Bar.WebApi.Controllers
                 default:
                     return BadRequest("PaymentMethod must be 'cash' or 'card'.");
             }
-             BarState.register.tips += tip;
+            BarState.register.tips += tip;
+
+            FileProcessor.SaveToPaymentHistory(table.name, table.bill, tip);
 
             // --- HERE is the bar-table vs normal-table behaviour ---
             const int BaseTableCount = 14;           // same logic as JS BASE_TABLE_COUNT
@@ -260,10 +262,13 @@ namespace Bar.WebApi.Controllers
 
             // Calculate total of selected items
             decimal subtotal = 0m;
+            Bill subBill = new Bill();
             foreach (var idx in indices)
             {
-                subtotal += billItems[idx].price;
+                subBill.AddItem(billItems[idx]);
+                //subtotal += billItems[idx].price;
             }
+            subtotal = subBill.total;
 
             var tip = request.Tip ?? 0m;
             var method = request.PaymentMethod?.ToLowerInvariant();
@@ -283,6 +288,8 @@ namespace Bar.WebApi.Controllers
                     return BadRequest("PaymentMethod must be 'cash' or 'card'.");
             }
             BarState.register.tips += tip;
+
+            FileProcessor.SaveToPaymentHistory(table.name, subBill, tip);
 
             // Remove selected items from the bill (from highest index downwards)
             for (int i = indices.Count - 1; i >= 0; i--)
