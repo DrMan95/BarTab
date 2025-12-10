@@ -84,7 +84,10 @@
           "Newtonsoft.Json": "13.0.2"
         },
         "runtime": {
-          "BarBillHolderLibrary.dll": {}
+          "BarBillHolderLibrary.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
