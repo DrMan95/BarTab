@@ -41,6 +41,27 @@ namespace Bar.WebApi.Controllers
             return Ok(MapTableToDto(table));
         }
 
+
+        public record RenameTableRequest(string Name);
+
+        [HttpPost("{id}/name")]
+        public async Task<IActionResult> SetName(int id, [FromBody] RenameTableRequest request)
+        {
+            if (id <= 0 || id > BarState.tables.Count)
+                return NotFound();
+
+            var table = BarState.tables[id - 1];
+
+            // Optional: trim and allow empty name
+            var newName = request?.Name?.Trim() ?? string.Empty;
+            table.name = newName; // or table.Name depending on your model
+
+            await FileProcessor.SaveBarInstanceAsync();
+
+            return NoContent();
+        }
+
+
         // POST: api/tables
         // Creates a new table (extra / bar table)
         [HttpPost]
