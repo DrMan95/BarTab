@@ -539,20 +539,34 @@ async function loadTableDetails(id) {
     buttons.style.gap = ".4rem";
 
     const cardFee = 1.1;
-    let discountFlat = 0; // label only
 
     const btnCash = document.createElement("button");
     btnCash.className = "btn btn-primary";
-    btnCash.textContent = "Pay all cash: " + (data.total - discountFlat).toFixed(2) + "€";
-    btnCash.onclick = () => closeCurrentTable("cash");
 
     const btnCard = document.createElement("button");
     btnCard.className = "btn btn";
-    btnCard.textContent = "Pay all card: " + ((data.total - discountFlat) * cardFee).toFixed(2) + "€";
-    btnCard.onclick = () => closeCurrentTable("card");
+
+    // function to recalc labels when discount changes
+    function updatePaymentLabels() {
+        const discountPercent = parseFloat(discountInput.value) || 0;
+        const clampedPercent = Math.min(Math.max(discountPercent, 0), 100);
+
+        const discountAmount = data.total * (clampedPercent / 100);
+        const totalAfterDiscount = Math.max(0, data.total - discountAmount);
+
+        btnCash.textContent = `Pay all cash: ${totalAfterDiscount.toFixed(2)}€`;
+        btnCard.textContent = `Pay all card: ${(totalAfterDiscount * cardFee).toFixed(2)}€`;
+    }
+
+    // update when the user types in the discount
+    discountInput.addEventListener("input", updatePaymentLabels);
+
+    // initial label setup
+    updatePaymentLabels();
 
     buttons.appendChild(btnCash);
     buttons.appendChild(btnCard);
+
 
     // Buttons partial pay
     const partialButtons = document.createElement("div");
