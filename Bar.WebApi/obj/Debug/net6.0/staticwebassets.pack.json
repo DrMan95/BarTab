@@ -1,8 +1,16 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\app.js",
+      "PackagePath": "staticwebassets\\app.js"
+    },
+    {
       "Id": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\styles.css",
+      "PackagePath": "staticwebassets\\styles.css"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.Bar.WebApi.Microsoft.AspNetCore.StaticWebAssets.props",

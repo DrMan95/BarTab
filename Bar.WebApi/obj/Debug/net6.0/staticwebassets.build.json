@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "K2afxmBHcOCH1DtqB9SYc5Z7k1kFPcK9rDI1dhprT1A=",
+  "Hash": "rATPUXY0pDW0JeQqvuZSwmW/f08daqeghobAExmvmSU=",
   "Source": "Bar.WebApi",
   "BasePath": "_content/Bar.WebApi",
   "Mode": "Default",
@@ -17,6 +17,23 @@
   ],
   "Assets": [
     {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\app.js",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "app.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\app.js"
+    },
+    {
       "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\index.html",
       "SourceId": "Bar.WebApi",
       "SourceType": "Discovered",
@@ -32,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\styles.css",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\styles.css"
     }
   ]
 }
