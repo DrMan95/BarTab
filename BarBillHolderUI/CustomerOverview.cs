@@ -89,7 +89,7 @@ namespace BarBillHolderUI
                 frm.ShowDialog();
                 if (this.instance.GetBill().total == 0)
                 {
-                    FileProcessor.SaveToPaymentHistory(this.instance.GetName(), bill);
+                    //FileProcessor.SaveToPaymentHistory(this.instance.GetName(), bill);
                     this.instance.Remove();
                     this.Close();
                 }

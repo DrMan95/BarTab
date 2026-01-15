@@ -4,13 +4,11 @@
     <meta charset="utf-8" />
     <title>BarakiBar - Web PDA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- External CSS -->
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <div id="app">
         <aside class="sidebar">
-            <!-- TOP: header + tables (scrollable) -->
             <div class="sidebar-top">
                 <h1 style="font-size:1.1rem;margin-bottom:.2rem;">🍸 BarakiBar</h1>
                 <div style="font-size:.8rem;color:#9ca3af;margin-bottom:1rem;">Web PDA</div>
@@ -25,7 +23,6 @@
                 </div>
             </div>
 
-            <!-- BOTTOM: register (fixed) -->
             <div class="sidebar-bottom">
                 <div class="section-title">Register</div>
                 <div id="register-card" class="card" style="padding:.6rem .7rem;">
@@ -54,7 +51,6 @@
         </aside>
 
         <main class="main">
-            <!-- LEFT: TABLE -->
             <div class="card card-column" id="table-card">
                 <div class="card-header">
                     <div>
@@ -66,7 +62,6 @@
                     <div id="table-status"></div>
                 </div>
 
-                <!-- make this scrollable -->
                 <div id="table-content" class="card-scroll">
                     <p style="font-size:.85rem;color:#9ca3af;">
                         Choose a table from the list on the left to see its current order.
@@ -74,7 +69,6 @@
                 </div>
             </div>
 
-            <!-- RIGHT: MENU -->
             <div class="card card-column" id="menu-card">
                 <div class="card-header">
                     <h3>Menu</h3>
@@ -86,65 +80,19 @@
                     </div>
                 </div>
 
-                <!-- make this scrollable -->
                 <div id="menu-content" class="card-scroll">
                     <div class="menu-toolbar">
                         <div class="menu-toolbar-left">
                             <div id="menu-filters" class="menu-filter-bar"></div>
                         </div>
-
-                        <div class="menu-search">
-                            <span class="menu-search-icon">🔍</span>
-                            <input id="menu-search-input"
-                                   class="menu-search-input"
-                                   type="text"
-                                   placeholder="Search by name..."
-                                   oninput="onMenuSearchChange(this.value)" />
-                        </div>
                     </div>
 
                     <div id="menu-grid" class="menu-grid"></div>
-
-                    <hr style="margin:.75rem 0;border-color:#1f2937;opacity:.4;" />
-
-                    <div id="menu-admin">
-                        <div class="small-label" style="margin-bottom:.35rem;">Add menu item</div>
-
-                        <div class="form-row" style="align-items:flex-end;">
-                            <div style="flex:2;">
-                                <div class="small-label">Name</div>
-                                <input id="menu-new-name" class="input-sm" placeholder="Item name (e.g. IPA Beer)" />
-                            </div>
-                            <div style="flex:1;">
-                                <div class="small-label">Category</div>
-                                <input id="menu-new-category" class="input-sm" placeholder="Category (e.g. Beer)" />
-                            </div>
-                            <div style="width:80px;">
-                                <div class="small-label">Price</div>
-                                <input id="menu-new-price"
-                                       class="input-sm"
-                                       type="number"
-                                       step="0.1"
-                                       min="0"
-                                       placeholder="0.0" />
-                            </div>
-                            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;">
-                                <label style="font-size:.75rem;color:#9ca3af;display:flex;align-items:center;gap:.25rem;">
-                                    <input id="menu-new-active" type="checkbox" checked />
-                                    Active
-                                </label>
-                                <button class="btn btn-sm btn-primary" onclick="createMenuItem()">
-                                    Save item
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- External JS -->
     <script src="app.js"></script>
 </body>
 </html>

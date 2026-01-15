@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using BarBillHolderLibrary.Database; // for FileProcessor
+﻿using Bar.WebApi.Data;
+using Bar.WebApi.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bar.WebApi.Controllers
 {
@@ -12,64 +9,82 @@ namespace Bar.WebApi.Controllers
     [Route("api/[controller]")]
     public class MenuController : ControllerBase
     {
-        public record DeleteMenuItemRequest(int Index);
-        private static string MenuFilePath => FileProcessor.menuCSV;
+        private readonly BarDbContext _context;
 
-        private static List<MenuItemDto>? _cachedMenu;
-        private static readonly object _lock = new();
-
-        public record MenuItemDto(
-            string Name,
-            string Category,
-            decimal Price,
-            bool Active
-        );
-
-        public record CreateMenuItemRequest(
-            string Name,
-            string Category,
-            decimal Price,
-            bool Active
-        );
-
-        // GET: api/menu
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetAll()
+        public MenuController(BarDbContext context)
         {
-            var items = await GetMenuAsync();
-
-            var result = items
-                .Select((item, idx) => new { item, idx })
-                .Where(x => x.item.Active)
-                .Select(x => new
-                {
-                    name = x.item.Name,
-                    category = x.item.Category,
-                    price = x.item.Price,
-                    active = x.item.Active,
-                    index = x.idx   // 👈 master list index
-                });
-
-            return Ok(result);
+            _context = context;
         }
 
-        // GET: api/menu/categories
+        // JS expects: item.index, item.name, item.category, item.price, item.active
+        // So we expose camelCase via JSON settings OR via these property names.
+        public class MenuItemDto
+        {
+            public int index { get; set; }
+            public string name { get; set; } = "";
+            public string category { get; set; } = "";
+            public decimal price { get; set; }
+            public bool active { get; set; }
+            public int? stockQuantity { get; set; }
+        }
+
+        public class CreateMenuItemRequest
+        {
+            public string Name { get; set; } = "";
+            public string Category { get; set; } = "";
+            public decimal Price { get; set; }
+            public bool Active { get; set; } = true;
+
+            // Your JS sends stockQuantity, so accept it
+            public int? StockQuantity { get; set; }
+        }
+
+        public class UpdateMenuItemRequest
+        {
+            public string? Name { get; set; }
+            public string? Category { get; set; }
+            public decimal? Price { get; set; }
+            public bool? Active { get; set; }
+            public int? StockQuantity { get; set; }
+        }
+
+        // GET /api/menu
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetAll()
+        {
+            var items = await _context.MenuItems
+                .Where(m => m.Active)
+                .OrderBy(m => m.Category)
+                .ThenBy(m => m.Name)
+                .Select(m => new MenuItemDto
+                {
+                    index = m.Id,
+                    name = m.Name,
+                    category = m.Category,
+                    price = m.Price,
+                    active = m.Active,
+                    stockQuantity = m.StockQuantity
+                })
+                .ToListAsync();
+
+            return Ok(items);
+        }
+
+        // GET /api/menu/categories
         [HttpGet("categories")]
         public async Task<ActionResult<IEnumerable<string>>> GetCategories()
         {
-            var items = await GetMenuAsync();
-            var categories = items
-                .Where(i => i.Active)
-                .Select(i => i.Category)
+            var categories = await _context.MenuItems
+                .Where(m => m.Active)
+                .Select(m => m.Category)
                 .Distinct()
                 .OrderBy(c => c)
-                .ToList();
+                .ToListAsync();
 
             return Ok(categories);
         }
 
-        // POST: api/menu
-        // Body: { "name": "...", "category": "...", "price": 3.50, "active": true }
+        // POST /api/menu
         [HttpPost]
         public async Task<ActionResult<MenuItemDto>> AddMenuItem([FromBody] CreateMenuItemRequest request)
         {
@@ -84,168 +99,81 @@ namespace Bar.WebApi.Controllers
                 return BadRequest("Price must be > 0.");
             }
 
-            var items = await GetMenuAsync();
-
-            var newItem = new MenuItemDto(
-                Name: request.Name.Trim(),
-                Category: request.Category.Trim(),
-                Price: request.Price,
-                Active: request.Active
-            );
-
-            lock (_lock)
+            if (request.StockQuantity is not null && request.StockQuantity < 0)
             {
-                items.Add(newItem);
-                _cachedMenu = items;
+                return BadRequest("StockQuantity must be >= 0 or null.");
             }
 
-            await SaveMenuToCsvAsync();
-
-            return CreatedAtAction(nameof(GetAll), newItem);
-        }
-
-        // DELETE: api/menu
-        // Body: { "index": 3 }
-        [HttpDelete]
-        public async Task<IActionResult> DeleteMenuItem([FromBody] DeleteMenuItemRequest request)
-        {
-            var items = await GetMenuAsync();
-
-            if (request.Index < 0 || request.Index >= items.Count)
-                return BadRequest("Invalid index.");
-
-            lock (_lock)
+            var entity = new MenuItem
             {
-                items.RemoveAt(request.Index);
-                _cachedMenu = items;
-            }
-
-            await SaveMenuToCsvAsync();
-
-            return NoContent();
-        }
-
-
-        // Optional: POST api/menu/reload (if you edit CSV manually while app is running)
-        [HttpPost("reload")]
-        public async Task<IActionResult> Reload()
-        {
-            await LoadMenuFromCsv(forceReload: true);
-            return NoContent();
-        }
-
-        // ------------- internal helpers -------------
-
-        private static async Task<List<MenuItemDto>> GetMenuAsync()
-        {
-            if (_cachedMenu != null) return _cachedMenu;
-            await LoadMenuFromCsv(forceReload: true);
-            return _cachedMenu ?? new List<MenuItemDto>();
-        }
-
-        private static async Task LoadMenuFromCsv(bool forceReload)
-        {
-            lock (_lock)
-            {
-                if (!forceReload && _cachedMenu != null)
-                    return;
-            }
-
-            if (!System.IO.File.Exists(MenuFilePath))
-            {
-                lock (_lock)
-                {
-                    _cachedMenu = new List<MenuItemDto>();
-                }
-                return;
-            }
-
-            var lines = await System.IO.File.ReadAllLinesAsync(MenuFilePath);
-            var list = new List<MenuItemDto>();
-
-            bool first = true;
-
-            foreach (var raw in lines)
-            {
-                if (string.IsNullOrWhiteSpace(raw))
-                    continue;
-
-                // Detect & skip header line if present
-                if (first &&
-                    raw.Contains("Name", StringComparison.OrdinalIgnoreCase) &&
-                    raw.Contains("Category", StringComparison.OrdinalIgnoreCase))
-                {
-                    first = false;
-                    continue;
-                }
-                first = false;
-
-                // Allow both ';' and ',' separators
-                char sep = raw.Contains(';') ? ';' : ',';
-                var parts = raw.Split(sep);
-                if (parts.Length < 3) continue;
-
-                var name = parts[0].Trim();
-                var category = parts[1].Trim();
-
-                if (!decimal.TryParse(
-                        parts[2].Trim(),
-                        NumberStyles.Number,
-                        CultureInfo.InvariantCulture,
-                        out var price))
-                    continue;
-
-                bool active = true;
-                if (parts.Length >= 4)
-                {
-                    var activeText = parts[3].Trim();
-                    if (!string.IsNullOrEmpty(activeText))
-                    {
-                        active =
-                            activeText.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                            activeText == "1" ||
-                            activeText.Equals("yes", StringComparison.OrdinalIgnoreCase);
-                    }
-                }
-
-                list.Add(new MenuItemDto(name, category, price, active));
-            }
-
-            lock (_lock)
-            {
-                _cachedMenu = list;
-            }
-        }
-
-        private static async Task SaveMenuToCsvAsync()
-        {
-            List<MenuItemDto> snapshot;
-            lock (_lock)
-            {
-                snapshot = _cachedMenu?.ToList() ?? new List<MenuItemDto>();
-            }
-
-            var lines = new List<string>
-            {
-                "Name;Category;Price;Active"
+                Name = request.Name.Trim(),
+                Category = request.Category.Trim(),
+                Price = request.Price,
+                Active = request.Active,
+                StockQuantity = request.StockQuantity
             };
 
-            foreach (var item in snapshot)
-            {
-                lines.Add(
-                    $"{item.Name};{item.Category};" +
-                    $"{item.Price.ToString(CultureInfo.InvariantCulture)};" +
-                    $"{(item.Active ? "true" : "false")}"
-                );
-            }
+            _context.MenuItems.Add(entity);
+            await _context.SaveChangesAsync();
 
-            var dir = Path.GetDirectoryName(MenuFilePath);
-            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            var dto = new MenuItemDto
             {
-                Directory.CreateDirectory(dir);
-            }
+                index = entity.Id,
+                name = entity.Name,
+                category = entity.Category,
+                price = entity.Price,
+                active = entity.Active,
+                stockQuantity = entity.StockQuantity
+            };
 
-            await System.IO.File.WriteAllLinesAsync(MenuFilePath, lines);
+            return CreatedAtAction(nameof(GetAll), dto);
+        }
+
+        // DELETE /api/menu/{id}
+        // JS currently calls: fetch("/api/menu/" + id, { method:"DELETE" })
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = await _context.MenuItems.FindAsync(id);
+            if (item == null) return NotFound();
+
+            // Soft delete (recommended)
+            item.Active = false;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // Optional: PUT /api/menu/{id}
+        // This is useful if you later add "edit price/stock" in UI.
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<MenuItemDto>> Update(int id, [FromBody] UpdateMenuItemRequest request)
+        {
+            var item = await _context.MenuItems.FindAsync(id);
+            if (item == null) return NotFound();
+
+            if (request.Name != null) item.Name = request.Name.Trim();
+            if (request.Category != null) item.Category = request.Category.Trim();
+            if (request.Price != null) item.Price = request.Price.Value;
+            if (request.Active != null) item.Active = request.Active.Value;
+
+            if (request.StockQuantity != null && request.StockQuantity < 0)
+                return BadRequest("StockQuantity must be >= 0 or null.");
+
+            if (request.StockQuantity != null)
+                item.StockQuantity = request.StockQuantity;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new MenuItemDto
+            {
+                index = item.Id,
+                name = item.Name,
+                category = item.Category,
+                price = item.Price,
+                active = item.Active,
+                stockQuantity = item.StockQuantity
+            });
         }
     }
 }

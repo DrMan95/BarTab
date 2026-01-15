@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bar.WebApi.Data;
+using BarBillHolderLibrary;          // Item, Customer
+using BarBillHolderLibrary.Database; // FileProcessor
+using BarBillHolderLibrary.Models;   // Bar, Table, Bill, Register
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using BarBillHolderLibrary;          // Item, Customer
-using BarBillHolderLibrary.Models;   // Bar, Table, Bill, Register
-using BarBillHolderLibrary.Database; // FileProcessor
-
+using Microsoft.EntityFrameworkCore;
 using BarState = BarBillHolderLibrary.Models.Bar;
 
 namespace Bar.WebApi.Controllers
@@ -122,22 +122,60 @@ namespace Bar.WebApi.Controllers
         // POST: api/tables/3/items
         // Body: { "name": "...", "category": "...", "price": 2.50 }
         [HttpPost("{id:int}/items")]
-        public async Task<ActionResult<TableDto>> AddItemToTable(int id, [FromBody] AddItemRequest request)
+        public async Task<ActionResult<TableDto>> AddItemToTable(int id,[FromBody] AddItemRequest request,[FromServices] BarDbContext db)
         {
             var table = BarState.tables?.FirstOrDefault(t => t.ID == id);
             if (table == null)
                 return NotFound($"Table {id} not found.");
 
-            if (table.bill == null)
-                table.bill = new Bill();
-
+            table.bill ??= new Bill();
             table.open = true;
 
-            var item = new Item(request.Name, request.Category, request.Price, Item.Status.UNDONE);
-            table.bill.AddItem(item);
+            // Preferred: add by MenuItemId (DB-backed, enables stock decrement)
+            if (request.MenuItemId.HasValue && request.MenuItemId.Value > 0)
+            {
+                var menuItem = await db.MenuItems
+                    .Where(m => m.Id == request.MenuItemId.Value && m.Active)
+                    .FirstOrDefaultAsync();
+
+                if (menuItem == null)
+                    return NotFound("Menu item not found or inactive.");
+
+                // Stock enforcement (null = unlimited)
+                if (menuItem.StockQuantity.HasValue)
+                {
+                    if (menuItem.StockQuantity.Value <= 0)
+                        return BadRequest("Out of stock.");
+
+                    menuItem.StockQuantity = menuItem.StockQuantity.Value - 1;
+                    await db.SaveChangesAsync();
+                }
+
+                var item = new Item(menuItem.Name, menuItem.Category, menuItem.Price, Item.Status.UNDONE);
+                table.bill.AddItem(item);
+
+                await FileProcessor.SaveBarInstanceAsync();
+                return Ok(MapTableToDto(table));
+            }
+
+            // Fallback: accept legacy payload (name/category/price)
+            if (string.IsNullOrWhiteSpace(request.Name) ||
+                string.IsNullOrWhiteSpace(request.Category) ||
+                request.Price is null ||
+                request.Price.Value <= 0)
+            {
+                return BadRequest("Either provide menuItemId, or provide name/category/price.");
+            }
+
+            var fallbackItem = new Item(
+                request.Name.Trim(),
+                request.Category.Trim(),
+                request.Price.Value,
+                Item.Status.UNDONE);
+
+            table.bill.AddItem(fallbackItem);
 
             await FileProcessor.SaveBarInstanceAsync();
-
             return Ok(MapTableToDto(table));
         }
 
@@ -416,11 +454,14 @@ namespace Bar.WebApi.Controllers
         decimal Price
     );
 
-    public record AddItemRequest(
-        string Name,
-        string Category,
-        decimal Price
-    );
+    public record AddItemRequest
+    {
+        public int? MenuItemId { get; init; }
+        public string? Name { get; init; }
+        public string? Category { get; init; }
+        public decimal? Price { get; init; }
+    }
+
 
     public record CloseTableRequest(
         string PaymentMethod,

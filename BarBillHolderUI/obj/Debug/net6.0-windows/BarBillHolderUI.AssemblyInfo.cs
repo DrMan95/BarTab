@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BarBillHolderUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+102b12694b604cdef22330e1f72e355fff0abc36")]
 [assembly: System.Reflection.AssemblyProductAttribute("BarBillHolderUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BarBillHolderUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

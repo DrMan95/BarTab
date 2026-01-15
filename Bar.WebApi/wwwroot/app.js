@@ -146,23 +146,12 @@ async function loadRegister() {
 
 // -------- Menu --------
 
-function onMenuSearchChange(value) {
-    menuSearchTerm = value.trim().toLowerCase();
-    renderMenuGrid();
-}
-
 async function loadMenu() {
-    // Load all menu items from backend
     menuItems = await fetchJson(apiBase + "/api/menu");
-
-    // Update count with ALL items (not just filtered)
     document.getElementById("menu-count").textContent =
         menuItems.length + " items";
 
-    // Load categories from backend and render filter bar
     await loadMenuCategories();
-
-    // Render grid for the current category
     renderMenuGrid();
 }
 
@@ -230,13 +219,6 @@ function renderMenuGrid() {
         items = items.filter(i => i.category === currentCategory);
     }
 
-    // Filter by search term (name)
-    if (menuSearchTerm) {
-        items = items.filter(i =>
-            i.name.toLowerCase().includes(menuSearchTerm)
-        );
-    }
-
     items.forEach(item => {
         const card = document.createElement("div");
         card.className = "menu-item";
@@ -256,31 +238,28 @@ function renderMenuGrid() {
         price.className = "money";
         price.textContent = item.price.toFixed(2) + " €";
 
+        const stock = document.createElement("span");
+        stock.className = "badge";
+        stock.textContent = (item.stockQuantity == null) ? "∞" : ("Stock: " + item.stockQuantity);
+
         meta.appendChild(cat);
         meta.appendChild(price);
+        meta.appendChild(stock);
 
         const footer = document.createElement("div");
         footer.className = "menu-footer";
         footer.style.display = "flex";
-        footer.style.justifyContent = "space-between";
+        footer.style.justifyContent = "flex-end";
         footer.style.alignItems = "center";
 
-        // optional remove button
-        const removeBtn = document.createElement("button");
-        removeBtn.className = "btn btn-ghost btn-sm";
-        removeBtn.textContent = "Remove";
-        removeBtn.onclick = () => {
-            if (confirm(`Remove "${item.name}" from the menu?`)) {
-                deleteMenuItem(item.index);
-            }
-        };
+        const outOfStock = (item.stockQuantity === 0);
 
         const addBtn = document.createElement("button");
         addBtn.className = "btn btn-primary";
-        addBtn.textContent = "Add to table";
+        addBtn.textContent = outOfStock ? "Out of stock" : "Add to table";
+        addBtn.disabled = outOfStock;
         addBtn.onclick = () => addItemToCurrentTable(item);
 
-        footer.appendChild(removeBtn);
         footer.appendChild(addBtn);
 
         card.appendChild(nameEl);
@@ -290,6 +269,7 @@ function renderMenuGrid() {
         grid.appendChild(card);
     });
 }
+
 
 // -------- Table details --------
 
@@ -743,22 +723,53 @@ async function addItemToCurrentTable(menuItem) {
         return;
     }
 
+    if (!menuItem || menuItem.index == null) {
+        alert("Invalid menu item.");
+        return;
+    }
+
+    // Frontend safety check (backend must still enforce stock)
+    // stockQuantity: null/undefined => unlimited
+    if (menuItem.stockQuantity === 0) {
+        alert("Out of stock.");
+        return;
+    }
+
     const body = {
-        name: menuItem.name,
-        category: menuItem.category,
-        price: menuItem.price
+        menuItemId: menuItem.index
     };
 
-    await fetchJson(apiBase + "/api/tables/" + currentTableId + "/items", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    });
+    try {
+        await fetchJson(apiBase + "/api/tables/" + currentTableId + "/items", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
 
-    await loadTableDetails(currentTableId);
-    await loadTables();
-    await loadRegister();
+        // Refresh UI to reflect:
+        // - new table total/items
+        // - register pending
+        // - menu stock decremented
+        await Promise.all([
+            loadTableDetails(currentTableId),
+            loadTables(),
+            loadRegister(),
+            loadMenu()
+        ]);
+    } catch (err) {
+        // fetchJson throws Error(text). The backend should return a useful message.
+        const msg = (err && err.message) ? err.message : "Could not add item.";
+
+        // Optional: if backend says out-of-stock, refresh menu anyway to show 0
+        if (msg.toLowerCase().includes("out of stock")) {
+            await loadMenu();
+        }
+
+        alert(msg);
+    }
 }
+
+
 
 async function closeCurrentTable(method) {
     if (currentTableId === null) return;
@@ -839,63 +850,6 @@ async function refreshAll() {
         loadRegister(),
         loadMenu()
     ]);
-}
-
-async function deleteMenuItem(index) {
-    try {
-        await fetchJson(apiBase + "/api/menu", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ index: index })
-        });
-
-        // Reload menu + filters + counts
-        await loadMenu();
-    } catch (err) {
-        console.error("Error deleting menu item:", err);
-        alert("Could not delete menu item.");
-    }
-}
-
-async function createMenuItem() {
-    const nameEl = document.getElementById("menu-new-name");
-    const catEl = document.getElementById("menu-new-category");
-    const priceEl = document.getElementById("menu-new-price");
-    const activeEl = document.getElementById("menu-new-active");
-
-    const name = nameEl.value.trim();
-    const category = catEl.value.trim();
-
-    // allow user to type "3,5" or "3.5"
-    const priceText = priceEl.value.replace(",", ".");
-    const price = parseFloat(priceText);
-
-    const active = activeEl.checked;
-
-    if (!name || !category || isNaN(price) || price <= 0) {
-        alert("Please fill name, category and a valid price.");
-        return;
-    }
-
-    await fetchJson(apiBase + "/api/menu", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            name: name,
-            category: category,
-            price: price,
-            active: active
-        })
-    });
-
-    // Clear fields
-    nameEl.value = "";
-    catEl.value = "";
-    priceEl.value = "";
-    activeEl.checked = true;
-
-    // Reload menu + filters
-    await loadMenu();
 }
 
 // init
