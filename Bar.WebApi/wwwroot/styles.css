@@ -347,3 +347,98 @@ tbody tr:nth-child(odd) {
     margin-top: .5rem;
     background: #020617;
 }
+
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal {
+    width: min(1050px, 92vw);
+    max-height: 86vh;
+    overflow: hidden;
+    border-radius: .9rem;
+    border: 1px solid #1f2937;
+    background: #020617;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: .85rem 1rem;
+    border-bottom: 1px solid #1f2937;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.modal-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.modal-subtitle {
+    font-size: .8rem;
+    color: #9ca3af;
+    margin-top: .15rem;
+}
+
+.modal-body {
+    padding: 1rem;
+    overflow: auto;
+}
+
+.modal-footer {
+    padding: .75rem 1rem;
+    border-top: 1px solid #1f2937;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.admin-grid-header,
+.admin-row {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr .8fr .8fr .6fr 1fr;
+    gap: .5rem;
+    align-items: center;
+}
+
+.admin-grid-header {
+    font-size: .75rem;
+    color: #9ca3af;
+    padding: .35rem .2rem;
+    border-bottom: 1px solid #1f2937;
+    margin-bottom: .35rem;
+}
+
+.admin-rows {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+
+.admin-row {
+    padding: .4rem .2rem;
+    border: 1px solid #1f2937;
+    border-radius: .6rem;
+    background: rgba(15,23,42,.35);
+}
+
+    .admin-row input[type="text"],
+    .admin-row input[type="number"] {
+        width: 100%;
+    }
+
+.admin-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .35rem;
+}

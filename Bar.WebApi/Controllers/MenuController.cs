@@ -70,6 +70,29 @@ namespace Bar.WebApi.Controllers
             return Ok(items);
         }
 
+        // GET /api/menu/all
+        // Admin view: returns active + inactive
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetAllIncludingInactive()
+        {
+            var items = await _context.MenuItems
+                .OrderBy(m => m.Category)
+                .ThenBy(m => m.Name)
+                .Select(m => new MenuItemDto
+                {
+                    index = m.Id,
+                    name = m.Name,
+                    category = m.Category,
+                    price = m.Price,
+                    active = m.Active,
+                    stockQuantity = m.StockQuantity
+                })
+                .ToListAsync();
+
+            return Ok(items);
+        }
+
+
         // GET /api/menu/categories
         [HttpGet("categories")]
         public async Task<ActionResult<IEnumerable<string>>> GetCategories()

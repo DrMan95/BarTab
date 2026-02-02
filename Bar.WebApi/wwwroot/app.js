@@ -8,6 +8,15 @@ let menuItems = [];
 let currentCategory = "All";
 let menuSearchTerm = "";
 
+let adminMenuItems = [];
+let adminTempId = -1;
+
+// NEW:
+let adminEdits = new Map();     // key: id, value: edited object
+let adminDeletedIds = new Set();// ids marked for delete
+
+
+
 function resetTableView() {
     const title = document.getElementById("table-title");
     const subtitle = document.getElementById("table-subtitle");
@@ -856,3 +865,336 @@ async function refreshAll() {
 window.addEventListener("load", () => {
     refreshAll().catch(err => console.error(err));
 });
+
+function openMenuAdmin() {
+    const modal = document.getElementById("menu-admin-modal");
+    modal.style.display = "flex";
+    loadMenuAdmin().catch(err => {
+        console.error(err);
+        alert("Could not load menu admin.");
+    });
+}
+
+function closeMenuAdmin() {
+    const modal = document.getElementById("menu-admin-modal");
+    modal.style.display = "none";
+}
+
+async function loadMenuAdmin() {
+    setAdminStatus("Loading...");
+    adminMenuItems = await fetchJson(apiBase + "/api/menu/all", { cache: "no-store" });
+
+    adminEdits.clear();
+    adminDeletedIds.clear();
+
+    renderMenuAdminRows();
+    setAdminStatus(`Loaded ${adminMenuItems.length} items`);
+}
+
+function setAdminStatus(text) {
+    const el = document.getElementById("admin-status");
+    if (el) el.textContent = text || "";
+}
+
+function renderMenuAdminRows() {
+    const host = document.getElementById("admin-rows");
+    if (!host) return;
+
+    host.innerHTML = "";
+
+    adminMenuItems.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "admin-row";
+        row.dataset.id = item.index;
+
+        // If marked deleted: visually dim it
+        if (adminDeletedIds.has(item.index)) {
+            row.style.opacity = "0.45";
+        }
+
+        // Helper: get "current" value = edits override original
+        const current = adminEdits.get(item.index) || { ...item };
+
+        // Inputs
+        const nameInput = document.createElement("input");
+        nameInput.className = "input-sm";
+        nameInput.type = "text";
+        nameInput.value = current.name || "";
+        nameInput.placeholder = "Name";
+
+        const catInput = document.createElement("input");
+        catInput.className = "input-sm";
+        catInput.type = "text";
+        catInput.value = current.category || "";
+        catInput.placeholder = "Category";
+
+        const priceInput = document.createElement("input");
+        priceInput.className = "input-sm";
+        priceInput.type = "number";
+        priceInput.step = "0.1";
+        priceInput.min = "0";
+        priceInput.value = (typeof current.price === "number") ? current.price : 0;
+
+        const stockInput = document.createElement("input");
+        stockInput.className = "input-sm";
+        stockInput.type = "number";
+        stockInput.step = "1";
+        stockInput.min = "0";
+        stockInput.value = (current.stockQuantity === null || current.stockQuantity === undefined)
+            ? ""
+            : current.stockQuantity;
+
+        const activeInput = document.createElement("input");
+        activeInput.type = "checkbox";
+        activeInput.checked = !!current.active;
+        activeInput.style.transform = "scale(1.1)";
+
+        // Disable editing if deleted (optional)
+        const disabled = adminDeletedIds.has(item.index);
+        nameInput.disabled = disabled;
+        catInput.disabled = disabled;
+        priceInput.disabled = disabled;
+        stockInput.disabled = disabled;
+        activeInput.disabled = disabled;
+
+        // Whenever inputs change, store edits
+        function commitEdit() {
+            if (adminDeletedIds.has(item.index)) return;
+
+            const edited = {
+                index: item.index,
+                name: nameInput.value,
+                category: catInput.value,
+                price: priceInput.value,
+                stockQuantity: stockInput.value,
+                active: activeInput.checked
+            };
+            adminEdits.set(item.index, edited);
+            setAdminStatus("Unsaved changes");
+        }
+
+        nameInput.addEventListener("input", commitEdit);
+        catInput.addEventListener("input", commitEdit);
+        priceInput.addEventListener("input", commitEdit);
+        stockInput.addEventListener("input", commitEdit);
+        activeInput.addEventListener("change", commitEdit);
+
+        // Actions: only Delete/Undo delete
+        const actions = document.createElement("div");
+        actions.className = "admin-actions";
+
+        const delBtn = document.createElement("button");
+        delBtn.className = "btn btn-ghost btn-sm";
+
+        if (adminDeletedIds.has(item.index)) {
+            delBtn.textContent = "Undo";
+            delBtn.onclick = () => {
+                adminDeletedIds.delete(item.index);
+                renderMenuAdminRows();
+                setAdminStatus("Unsaved changes");
+            };
+        } else {
+            delBtn.textContent = "Delete";
+            delBtn.onclick = () => {
+                // New unsaved row: remove immediately
+                if (item.index < 0) {
+                    adminMenuItems = adminMenuItems.filter(x => x.index !== item.index);
+                    adminEdits.delete(item.index);
+                    renderMenuAdminRows();
+                    setAdminStatus("Unsaved changes");
+                    return;
+                }
+
+                // Existing row: mark for delete
+                adminDeletedIds.add(item.index);
+                adminEdits.delete(item.index); // no need to keep edits if deleting
+                renderMenuAdminRows();
+                setAdminStatus("Unsaved changes");
+            };
+        }
+
+        actions.appendChild(delBtn);
+
+        // Layout
+        row.appendChild(nameInput);
+        row.appendChild(catInput);
+
+        const priceWrap = document.createElement("div");
+        priceWrap.style.textAlign = "right";
+        priceWrap.appendChild(priceInput);
+        row.appendChild(priceWrap);
+
+        const stockWrap = document.createElement("div");
+        stockWrap.style.textAlign = "right";
+        stockWrap.appendChild(stockInput);
+        row.appendChild(stockWrap);
+
+        const activeWrap = document.createElement("div");
+        activeWrap.style.textAlign = "center";
+        activeWrap.appendChild(activeInput);
+        row.appendChild(activeWrap);
+
+        row.appendChild(actions);
+
+        host.appendChild(row);
+    });
+}
+
+function adminAddNewRow() {
+    const newItem = {
+        index: adminTempId--,
+        name: "",
+        category: "",
+        price: 0,
+        active: true,
+        stockQuantity: null
+    };
+
+    adminMenuItems.unshift(newItem);
+
+    // create an edit entry so Save All knows about it
+    adminEdits.set(newItem.index, {
+        index: newItem.index,
+        name: "",
+        category: "",
+        price: "0",
+        stockQuantity: "",
+        active: true
+    });
+
+    renderMenuAdminRows();
+    setAdminStatus("Unsaved changes");
+}
+
+async function adminDeleteRow(id, name) {
+    if (id < 0) {
+        // Unsaved new row, just remove locally
+        adminMenuItems = adminMenuItems.filter(x => x.index !== id);
+        renderMenuAdminRows();
+        return;
+    }
+
+    if (!confirm(`Delete "${name}"? (This will set Active=false)`)) return;
+
+    try {
+        setAdminStatus("Deleting...");
+        await fetchJson(apiBase + `/api/menu/${id}`, { method: "DELETE" });
+
+        await loadMenuAdmin();
+        await loadMenu();
+        setAdminStatus("Deleted ✅");
+    } catch (err) {
+        console.error(err);
+        alert(err.message || "Delete failed.");
+        setAdminStatus("Delete failed");
+    }
+}
+
+async function adminSaveAll() {
+    // If nothing changed:
+    if (adminEdits.size === 0 && adminDeletedIds.size === 0) {
+        alert("No changes to save.");
+        return;
+    }
+
+    setAdminStatus("Saving...");
+
+    // Build lookups for originals
+    const originalById = new Map(adminMenuItems.map(x => [x.index, x]));
+
+    // Helper to normalize inputs into API payload
+    function buildPayload(edited) {
+        const name = (edited.name || "").trim();
+        const category = (edited.category || "").trim();
+
+        const price = parseFloat((edited.price || "0").toString().replace(",", "."));
+        if (!name || !category || isNaN(price) || price <= 0) {
+            throw new Error("Each item must have name, category, and valid price > 0.");
+        }
+
+        let stockQuantity = null;
+        const stockText = (edited.stockQuantity ?? "").toString().trim();
+        if (stockText !== "") {
+            const s = parseInt(stockText, 10);
+            if (isNaN(s) || s < 0) throw new Error("Stock must be empty (∞) or a number >= 0.");
+            stockQuantity = s;
+        }
+
+        return {
+            name,
+            category,
+            price,
+            active: !!edited.active,
+            stockQuantity
+        };
+    }
+
+    // Determine which existing rows are truly changed
+    const creates = [];
+    const updates = [];
+    const deletes = Array.from(adminDeletedIds);
+
+    try {
+        for (const [id, edited] of adminEdits.entries()) {
+            // Skip deleted ids
+            if (adminDeletedIds.has(id)) continue;
+
+            const payload = buildPayload(edited);
+
+            if (id < 0) {
+                creates.push(payload);
+            } else {
+                const original = originalById.get(id);
+                if (!original) continue;
+
+                // Compare to avoid unnecessary PUTs
+                const same =
+                    (payload.name === original.name) &&
+                    (payload.category === original.category) &&
+                    (Number(payload.price) === Number(original.price)) &&
+                    (payload.active === !!original.active) &&
+                    ((payload.stockQuantity ?? null) === (original.stockQuantity ?? null));
+
+                if (!same) {
+                    updates.push({ id, payload });
+                }
+            }
+        }
+
+        // Execute requests (sequential for simplicity & clearer errors)
+        // (You can parallelize later if you want)
+        for (const p of creates) {
+            await fetchJson(apiBase + "/api/menu", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(p)
+            });
+        }
+
+        for (const u of updates) {
+            await fetchJson(apiBase + `/api/menu/${u.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(u.payload)
+            });
+        }
+
+        for (const id of deletes) {
+            await fetchJson(apiBase + `/api/menu/${id}`, {
+                method: "DELETE"
+            });
+        }
+
+        // Reload admin + refresh PDA menu
+        await loadMenuAdmin();
+        await loadMenu();
+
+        setAdminStatus("Saved ✅");
+        alert(`Saved!\nCreated: ${creates.length}\nUpdated: ${updates.length}\nDeleted: ${deletes.length}`);
+    } catch (err) {
+        console.error(err);
+        setAdminStatus("Save failed");
+        alert(err.message || "Save failed.");
+    }
+}
+
