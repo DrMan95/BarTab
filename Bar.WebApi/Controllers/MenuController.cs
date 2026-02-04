@@ -185,6 +185,8 @@ namespace Bar.WebApi.Controllers
 
             if (request.StockQuantity != null)
                 item.StockQuantity = request.StockQuantity;
+            else
+                item.StockQuantity = null;
 
             await _context.SaveChangesAsync();
 

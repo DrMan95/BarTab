@@ -1,1 +1,71 @@
-{"Version":1,"Hash":"wqUujZnXRN8ahU5eN91U/2KfixNkWhGRHcW1VeHCkJ4=","Source":"Bar.WebApi","BasePath":"_content/Bar.WebApi","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[{"Name":"Bar.WebApi\\wwwroot","Source":"Bar.WebApi","ContentRoot":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\","BasePath":"_content/Bar.WebApi","Pattern":"**"}],"Assets":[{"Identity":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\app.js","SourceId":"Bar.WebApi","SourceType":"Discovered","ContentRoot":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\","BasePath":"_content/Bar.WebApi","RelativePath":"app#[.{fingerprint}]?.js","AssetKind":"All","AssetMode":"All","AssetRole":"Primary","AssetMergeBehavior":"","AssetMergeSource":"","RelatedAsset":"","AssetTraitName":"","AssetTraitValue":"","Fingerprint":"al7xwv6ys1","Integrity":"roAkMLnV3nxxmXy1GzfWYUQozXE0ba3Gq7o+pj0fhug=","CopyToOutputDirectory":"Never","CopyToPublishDirectory":"PreserveNewest","OriginalItemSpec":"wwwroot\\app.js","FileLength":38742,"LastWriteTime":"2026-02-02T09:23:56+00:00"},{"Identity":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\index.html","SourceId":"Bar.WebApi","SourceType":"Discovered","ContentRoot":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\","BasePath":"_content/Bar.WebApi","RelativePath":"index#[.{fingerprint}]?.html","AssetKind":"All","AssetMode":"All","AssetRole":"Primary","AssetMergeBehavior":"","AssetMergeSource":"","RelatedAsset":"","AssetTraitName":"","AssetTraitValue":"","Fingerprint":"49mbta7zwp","Integrity":"mOUlEaLUcRam+ZUj4xk2to3qTtOI4PHugh8232ZQgoQ=","CopyToOutputDirectory":"Never","CopyToPublishDirectory":"PreserveNewest","OriginalItemSpec":"wwwroot\\index.html","FileLength":5908,"LastWriteTime":"2026-02-02T09:20:12+00:00"},{"Identity":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\styles.css","SourceId":"Bar.WebApi","SourceType":"Discovered","ContentRoot":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\","BasePath":"_content/Bar.WebApi","RelativePath":"styles#[.{fingerprint}]?.css","AssetKind":"All","AssetMode":"All","AssetRole":"Primary","AssetMergeBehavior":"","AssetMergeSource":"","RelatedAsset":"","AssetTraitName":"","AssetTraitValue":"","Fingerprint":"s73yez472c","Integrity":"yH4FknRqLudsGO632i+K3n5aihVSJsIG4pjJuRnu/W0=","CopyToOutputDirectory":"Never","CopyToPublishDirectory":"PreserveNewest","OriginalItemSpec":"wwwroot\\styles.css","FileLength":8293,"LastWriteTime":"2026-02-02T09:06:31+00:00"}],"Endpoints":[{"Route":"app.al7xwv6ys1.js","AssetFile":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\app.js","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"38742"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\"roAkMLnV3nxxmXy1GzfWYUQozXE0ba3Gq7o+pj0fhug=\""},{"Name":"Last-Modified","Value":"Mon, 02 Feb 2026 09:23:56 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"}],"EndpointProperties":[{"Name":"fingerprint","Value":"al7xwv6ys1"},{"Name":"label","Value":"app.js"},{"Name":"integrity","Value":"sha256-roAkMLnV3nxxmXy1GzfWYUQozXE0ba3Gq7o+pj0fhug="}]},{"Route":"app.js","AssetFile":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\app.js","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"38742"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\"roAkMLnV3nxxmXy1GzfWYUQozXE0ba3Gq7o+pj0fhug=\""},{"Name":"Last-Modified","Value":"Mon, 02 Feb 2026 09:23:56 GMT"},{"Name":"Cache-Control","Value":"no-cache"}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-roAkMLnV3nxxmXy1GzfWYUQozXE0ba3Gq7o+pj0fhug="}]},{"Route":"index.49mbta7zwp.html","AssetFile":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\index.html","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"5908"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"mOUlEaLUcRam+ZUj4xk2to3qTtOI4PHugh8232ZQgoQ=\""},{"Name":"Last-Modified","Value":"Mon, 02 Feb 2026 09:20:12 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"}],"EndpointProperties":[{"Name":"fingerprint","Value":"49mbta7zwp"},{"Name":"label","Value":"index.html"},{"Name":"integrity","Value":"sha256-mOUlEaLUcRam+ZUj4xk2to3qTtOI4PHugh8232ZQgoQ="}]},{"Route":"index.html","AssetFile":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\index.html","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"5908"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"mOUlEaLUcRam+ZUj4xk2to3qTtOI4PHugh8232ZQgoQ=\""},{"Name":"Last-Modified","Value":"Mon, 02 Feb 2026 09:20:12 GMT"},{"Name":"Cache-Control","Value":"no-cache"}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-mOUlEaLUcRam+ZUj4xk2to3qTtOI4PHugh8232ZQgoQ="}]},{"Route":"styles.css","AssetFile":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\styles.css","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"8293"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\"yH4FknRqLudsGO632i+K3n5aihVSJsIG4pjJuRnu/W0=\""},{"Name":"Last-Modified","Value":"Mon, 02 Feb 2026 09:06:31 GMT"},{"Name":"Cache-Control","Value":"no-cache"}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-yH4FknRqLudsGO632i+K3n5aihVSJsIG4pjJuRnu/W0="}]},{"Route":"styles.s73yez472c.css","AssetFile":"C:\\Users\\nmarm\\Documents\\BarTab\\Bar.WebApi\\wwwroot\\styles.css","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"8293"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\"yH4FknRqLudsGO632i+K3n5aihVSJsIG4pjJuRnu/W0=\""},{"Name":"Last-Modified","Value":"Mon, 02 Feb 2026 09:06:31 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"}],"EndpointProperties":[{"Name":"fingerprint","Value":"s73yez472c"},{"Name":"label","Value":"styles.css"},{"Name":"integrity","Value":"sha256-yH4FknRqLudsGO632i+K3n5aihVSJsIG4pjJuRnu/W0="}]}]}
+{
+  "Version": 1,
+  "Hash": "rATPUXY0pDW0JeQqvuZSwmW/f08daqeghobAExmvmSU=",
+  "Source": "Bar.WebApi",
+  "BasePath": "_content/Bar.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Bar.WebApi\\wwwroot",
+      "Source": "Bar.WebApi",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\app.js",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "app.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\app.js"
+    },
+    {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\index.html",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\styles.css",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\styles.css"
+    }
+  ]
+}
