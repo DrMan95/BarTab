@@ -160,10 +160,9 @@ namespace Bar.WebApi.Controllers
             var item = await _context.MenuItems.FindAsync(id);
             if (item == null) return NotFound();
 
-            // Soft delete (recommended)
-            item.Active = false;
-
+            _context.MenuItems.Remove(item);
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
