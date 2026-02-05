@@ -11,11 +11,15 @@ let menuSearchTerm = "";
 let adminMenuItems = [];
 let adminTempId = -1;
 
-// NEW:
 let adminEdits = new Map();     // key: id, value: edited object
 let adminDeletedIds = new Set();// ids marked for delete
 
+let adminSearchTerm = "";  
 
+function onAdminSearchChange(value) {
+    adminSearchTerm = (value || "").trim().toLowerCase();
+    renderMenuAdminRows();
+}
 
 function resetTableView() {
     const title = document.getElementById("table-title");
@@ -867,6 +871,11 @@ window.addEventListener("load", () => {
 });
 
 function openMenuAdmin() {
+
+    adminSearchTerm = "";
+    const input = document.getElementById("admin-search-input");
+    if (input) input.value = "";
+
     const modal = document.getElementById("menu-admin-modal");
     modal.style.display = "flex";
     loadMenuAdmin().catch(err => {
@@ -902,7 +911,19 @@ function renderMenuAdminRows() {
 
     host.innerHTML = "";
 
-    adminMenuItems.forEach(item => {
+    let items = adminMenuItems;
+
+    // Search filter (name)
+    if (adminSearchTerm) {
+        items = items.filter(item => {
+            // use edited name if user changed it
+            const current = adminEdits.get(item.index) || item;
+            const name = (current.name || "").toLowerCase();
+            return name.includes(adminSearchTerm);
+        });
+    }
+
+    items.forEach(item => {
         const row = document.createElement("div");
         row.className = "admin-row";
         row.dataset.id = item.index;

@@ -124,7 +124,14 @@
                     <div style="text-align:center;">Active</div>
                     <div style="text-align:right;">Actions</div>
                 </div>
-
+                <div class="menu-search" style="margin:.5rem 0 .75rem 0; width:100%;">
+                    <span class="menu-search-icon">🔍</span>
+                    <input id="admin-search-input"
+                           class="menu-search-input"
+                           type="text"
+                           placeholder="Search by name..."
+                           oninput="onAdminSearchChange(this.value)" />
+                </div>
                 <div id="admin-rows" class="admin-rows"></div>
             </div>
 
