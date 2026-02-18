@@ -3,10 +3,8 @@ using BarBillHolderLibrary;          // Item, Customer
 using BarBillHolderLibrary.Database; // FileProcessor
 using BarBillHolderLibrary.Models;   // Bar, Table, Bill, Register
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
 using BarState = BarBillHolderLibrary.Models.Bar;
 
 namespace Bar.WebApi.Controllers
@@ -15,9 +13,68 @@ namespace Bar.WebApi.Controllers
     [Route("api/[controller]")]
     public class TablesController : ControllerBase
     {
+        private const int BaseTableCount = 14; // fixed tables (1..14), bar tables are > 14
+
+        private readonly BarDbContext _db;
+
+        public TablesController(BarDbContext db)
+        {
+            _db = db;
+        }
+
+        // -------------------- DTOs / Requests --------------------
+
         public record RemoveItemsRequest(List<int> ItemIndexes);
 
-        private const int BaseTableCount = 14; // fixed tables (1..14), bar tables are > 14
+        public record RenameTableRequest(string Name);
+
+        public record AddItemRequest
+        {
+            public int? MenuItemId { get; init; }
+            public string? Name { get; init; }
+            public string? Category { get; init; }
+            public decimal? Price { get; init; }
+        }
+
+        public record CloseTableRequest(
+            string PaymentMethod,
+            decimal? Tip,
+            decimal? DiscountPercent
+        );
+
+        public record MoveToTableRequest(int TargetTableId);
+
+        public record PayItemsRequest(
+            string PaymentMethod,
+            decimal? Tip,
+            List<int> ItemIndexes,
+            decimal? DiscountPercent
+        );
+
+        public record TableDto(
+            int Id,
+            string Name,
+            bool Open,
+            decimal Total,
+            IEnumerable<BillItemDto> Items
+        );
+
+        public record TableSummaryDto(
+            int Id,
+            string Name,
+            decimal Total,
+            bool Open
+        );
+
+        // ✅ add MenuItemId so we can debug / extend later (frontend can ignore it)
+        public record BillItemDto(
+            int? MenuItemId,
+            string Name,
+            string Category,
+            decimal Price
+        );
+
+        // -------------------- Endpoints --------------------
 
         // GET: api/tables
         [HttpGet]
@@ -41,47 +98,36 @@ namespace Bar.WebApi.Controllers
             return Ok(MapTableToDto(table));
         }
 
-
-        public record RenameTableRequest(string Name);
-
+        // POST: api/tables/{id}/name
         [HttpPost("{id}/name")]
         public async Task<IActionResult> SetName(int id, [FromBody] RenameTableRequest request)
         {
-            if (id <= 0 || id > BarState.tables.Count)
+            if (id <= 0 || BarState.tables == null || id > BarState.tables.Count)
                 return NotFound();
 
             var table = BarState.tables[id - 1];
 
-            // Optional: trim and allow empty name
             var newName = request?.Name?.Trim() ?? string.Empty;
-            table.name = newName; // or table.Name depending on your model
+            table.name = newName;
 
             await FileProcessor.SaveBarInstanceAsync();
-
             return NoContent();
         }
 
-
-        // POST: api/tables
-        // Creates a new table (extra / bar table)
+        // POST: api/tables (creates a new bar table)
         [HttpPost]
         public async Task<ActionResult<TableSummaryDto>> CreateTable()
         {
-            if (BarState.tables == null)
-                BarState.tables = new List<Table>();
+            BarState.tables ??= new List<Table>();
 
-            // Next ID = max existing ID + 1, or 1 if none
             int newId = BarState.tables.Any()
                 ? BarState.tables.Max(t => t.ID) + 1
                 : 1;
 
-            var newTable = new Table(newId);  // open = false, empty bill
+            var newTable = new Table(newId);
 
-            // --- Naming logic ---
             if (newId > BaseTableCount)
             {
-                // This is a bar table → give it a Bar N name
-                // Collect existing bar names so we don't duplicate
                 var existingBarNames = BarState.tables
                     .Where(t => t.ID > BaseTableCount && !string.IsNullOrWhiteSpace(t.name))
                     .Select(t => t.name)
@@ -97,15 +143,8 @@ namespace Bar.WebApi.Controllers
 
                 newTable.name = candidate;
             }
-            else
-            {
-                // Normal "fixed" tables can keep whatever naming you already have,
-                // but if you want to enforce a default, you can uncomment this:
-                // newTable.name = newTable.name ?? $"Table {newId}";
-            }
 
             BarState.tables.Add(newTable);
-
             await FileProcessor.SaveBarInstanceAsync();
 
             var dto = new TableSummaryDto(
@@ -118,11 +157,11 @@ namespace Bar.WebApi.Controllers
             return CreatedAtAction(nameof(GetTable), new { id = dto.Id }, dto);
         }
 
-
         // POST: api/tables/3/items
-        // Body: { "name": "...", "category": "...", "price": 2.50 }
+        // Preferred body: { "menuItemId": 12 }
+        // Legacy body: { "name": "...", "category": "...", "price": 2.50 }
         [HttpPost("{id:int}/items")]
-        public async Task<ActionResult<TableDto>> AddItemToTable(int id,[FromBody] AddItemRequest request,[FromServices] BarDbContext db)
+        public async Task<ActionResult<TableDto>> AddItemToTable(int id, [FromBody] AddItemRequest request)
         {
             var table = BarState.tables?.FirstOrDefault(t => t.ID == id);
             if (table == null)
@@ -134,9 +173,8 @@ namespace Bar.WebApi.Controllers
             // Preferred: add by MenuItemId (DB-backed, enables stock decrement)
             if (request.MenuItemId.HasValue && request.MenuItemId.Value > 0)
             {
-                var menuItem = await db.MenuItems
-                    .Where(m => m.Id == request.MenuItemId.Value && m.Active)
-                    .FirstOrDefaultAsync();
+                var menuItem = await _db.MenuItems
+                    .FirstOrDefaultAsync(m => m.Id == request.MenuItemId.Value && m.Active);
 
                 if (menuItem == null)
                     return NotFound("Menu item not found or inactive.");
@@ -148,17 +186,22 @@ namespace Bar.WebApi.Controllers
                         return BadRequest("Out of stock.");
 
                     menuItem.StockQuantity = menuItem.StockQuantity.Value - 1;
-                    await db.SaveChangesAsync();
+                    await _db.SaveChangesAsync();
                 }
 
-                var item = new Item(menuItem.Name, menuItem.Category, menuItem.Price, Item.Status.UNDONE);
+                var item = new Item(menuItem.Name, menuItem.Category, menuItem.Price, Item.Status.UNDONE)
+                {
+                    // ✅ CRITICAL: remember where this came from so we can restock on cancel
+                    MenuItemId = menuItem.Id
+                };
+
                 table.bill.AddItem(item);
 
                 await FileProcessor.SaveBarInstanceAsync();
                 return Ok(MapTableToDto(table));
             }
 
-            // Fallback: accept legacy payload (name/category/price)
+            // Legacy fallback
             if (string.IsNullOrWhiteSpace(request.Name) ||
                 string.IsNullOrWhiteSpace(request.Category) ||
                 request.Price is null ||
@@ -180,7 +223,6 @@ namespace Bar.WebApi.Controllers
         }
 
         // POST: api/tables/3/close
-        // Body: { "paymentMethod": "cash" } or "card"
         [HttpPost("{id:int}/close")]
         public async Task<IActionResult> CloseTable(int id, [FromBody] CloseTableRequest request)
         {
@@ -194,14 +236,14 @@ namespace Bar.WebApi.Controllers
             if (table.bill == null)
                 return BadRequest($"Table {id} has no bill.");
 
-            if (BarState.register == null)
-                BarState.register = new Register();
+            BarState.register ??= new Register();
 
             var tip = request.Tip ?? 0m;
             var discount = request.DiscountPercent ?? 0m;
-            var total = table.bill.total - (discount/100 * table.bill.total);
+
+            var total = table.bill.total - (discount / 100m * table.bill.total);
+
             var method = request.PaymentMethod?.ToLowerInvariant();
-            // 10% extra fee
             decimal multiplier = 1.1m;
 
             switch (method)
@@ -209,41 +251,30 @@ namespace Bar.WebApi.Controllers
                 case "cash":
                     BarState.register.cash += total;
                     break;
-
                 case "card":
                     BarState.register.card += total * multiplier;
                     break;
-
                 default:
                     return BadRequest("PaymentMethod must be 'cash' or 'card'.");
             }
+
             BarState.register.tips += tip;
 
             FileProcessor.SaveToPaymentHistory(table.name, table.bill, tip);
 
-            // --- HERE is the bar-table vs normal-table behaviour ---
-            const int BaseTableCount = 14;           // same logic as JS BASE_TABLE_COUNT
             bool isBarTable = table.ID > BaseTableCount;
 
             if (isBarTable)
-            {
-                // Completely delete this extra/bar table from the list
                 BarState.tables.Remove(table);
-            }
             else
-            {
-                // Normal table: just clear bill and mark it free
-                table.Remove();  // your existing method that clears bill + open=false
-            }
+                table.Remove();
 
             await FileProcessor.SaveBarInstanceAsync();
-
             return NoContent();
         }
 
-
+        // ✅ CANCEL / REMOVE selected items AND RESTOCK
         // POST: api/tables/3/remove-items
-        // Body: { "itemIndexes": [0, 2, 3] }
         [HttpPost("{id:int}/remove-items")]
         public async Task<IActionResult> RemoveSelectedItems(int id, [FromBody] RemoveItemsRequest request)
         {
@@ -251,7 +282,7 @@ namespace Bar.WebApi.Controllers
             if (table == null)
                 return NotFound($"Table {id} not found.");
 
-            if (table.bill == null || table.bill.items == null || table.bill.items.Count == 0)
+            if (table.bill?.items == null || table.bill.items.Count == 0)
                 return BadRequest("Table has no items.");
 
             if (request.ItemIndexes == null || request.ItemIndexes.Count == 0)
@@ -259,13 +290,11 @@ namespace Bar.WebApi.Controllers
 
             var billItems = table.bill.items;
 
-            // Distinct, sorted indices
             var indices = request.ItemIndexes
                 .Distinct()
                 .OrderBy(i => i)
                 .ToList();
 
-            // Validate indices
             if (indices.Any(i => i < 0 || i >= billItems.Count))
                 return BadRequest("One or more item indexes are invalid.");
 
@@ -274,23 +303,25 @@ namespace Bar.WebApi.Controllers
             {
                 int idx = indices[i];
                 var item = billItems[idx];
+
+                // ✅ RESTOCK in SQLite if this item came from menu
+                await RestockIfNeeded(item);
+
+                // Remove from bill
                 table.bill.RemoveItem(item);
             }
 
-            // If no items left, mark table as closed (but keep the table itself)
+            await _db.SaveChangesAsync();
+
             if (table.bill.items.Count == 0)
-            {
                 table.open = false;
-            }
 
             await FileProcessor.SaveBarInstanceAsync();
-
             return Ok(MapTableToDto(table));
         }
 
-
-        // NEW: POST: api/tables/3/pay-items
-        // Body: { "paymentMethod": "cash", "tip": 0.5, "itemIndexes": [0,2,3] }
+        // POST: api/tables/3/pay-items
+        // ✅ Do NOT restock here (these are paid)
         [HttpPost("{id:int}/pay-items")]
         public async Task<IActionResult> PaySelectedItems(int id, [FromBody] PayItemsRequest request)
         {
@@ -298,59 +329,56 @@ namespace Bar.WebApi.Controllers
             if (table == null)
                 return NotFound($"Table {id} not found.");
 
-            if (table.bill == null || table.bill.items == null || table.bill.items.Count == 0)
+            if (table.bill?.items == null || table.bill.items.Count == 0)
                 return BadRequest("Table has no items to pay.");
 
             if (request.ItemIndexes == null || request.ItemIndexes.Count == 0)
                 return BadRequest("No items selected.");
 
-            if (BarState.register == null)
-                BarState.register = new Register();
+            BarState.register ??= new Register();
 
             var billItems = table.bill.items;
 
-            // Distinct, sorted indices
             var indices = request.ItemIndexes
                 .Distinct()
                 .OrderBy(i => i)
                 .ToList();
 
-            // Validate indices
             if (indices.Any(i => i < 0 || i >= billItems.Count))
                 return BadRequest("One or more item indexes are invalid.");
 
-            // Calculate total of selected items
-            decimal subtotal = 0m;
+            // Build a sub-bill for history + total calc
             Bill subBill = new Bill();
             foreach (var idx in indices)
-            {
                 subBill.AddItem(billItems[idx]);
-                //subtotal += billItems[idx].price;
-            }
-            subtotal = subBill.total;
+
+            var subtotal = subBill.total;
 
             var tip = request.Tip ?? 0m;
-            var method = request.PaymentMethod?.ToLowerInvariant();
+            var discount = request.DiscountPercent ?? 0m;
 
-            decimal multiplier = 1.1m; // extra fee on selected items
+            // Apply discount to selected subtotal too (recommended, since your UI sends it)
+            var subtotalAfterDiscount = subtotal - (discount / 100m * subtotal);
+
+            var method = request.PaymentMethod?.ToLowerInvariant();
+            decimal multiplier = 1.1m;
+
             switch (method)
             {
                 case "cash":
-                    BarState.register.cash += subtotal;
+                    BarState.register.cash += subtotalAfterDiscount;
                     break;
-
                 case "card":
-                    BarState.register.card += subtotal * multiplier;
+                    BarState.register.card += subtotalAfterDiscount * multiplier;
                     break;
-
                 default:
                     return BadRequest("PaymentMethod must be 'cash' or 'card'.");
             }
-            BarState.register.tips += tip;
 
+            BarState.register.tips += tip;
             FileProcessor.SaveToPaymentHistory(table.name, subBill, tip);
 
-            // Remove selected items from the bill (from highest index downwards)
+            // Remove paid items from bill
             for (int i = indices.Count - 1; i >= 0; i--)
             {
                 int idx = indices[i];
@@ -358,20 +386,14 @@ namespace Bar.WebApi.Controllers
                 table.bill.RemoveItem(item);
             }
 
-            // If no items left, mark table as closed
             if (table.bill.items.Count == 0)
-            {
                 table.open = false;
-            }
 
             await FileProcessor.SaveBarInstanceAsync();
-
-            // Return updated table
             return Ok(MapTableToDto(table));
         }
 
         // POST: api/tables/3/move-to-table
-        // Body: { "targetTableId": 5 }
         [HttpPost("{id:int}/move-to-table")]
         public async Task<IActionResult> MoveToTable(int id, [FromBody] MoveToTableRequest request)
         {
@@ -389,29 +411,39 @@ namespace Bar.WebApi.Controllers
             if (target == null)
                 return NotFound($"Target table {request.TargetTableId} not found.");
 
-            if (source.bill == null || source.bill.items == null || source.bill.items.Count == 0)
+            if (source.bill?.items == null || source.bill.items.Count == 0)
                 return BadRequest("Source table has no items to move.");
 
-            if (target.bill == null)
-                target.bill = new Bill();
+            target.bill ??= new Bill();
             target.open = true;
 
-            // Move all items from source to target
+            // Move all items
             var itemsToMove = source.bill.items.ToList();
             foreach (var item in itemsToMove)
-            {
-                target.bill.AddItem(item);
-            }
+                target.bill.AddItem(item); // MenuItemId stays on item (good)
 
-            // Clear source table
             source.Remove();
 
             await FileProcessor.SaveBarInstanceAsync();
-
             return NoContent();
         }
 
-        // ---------- helpers & DTOs ----------
+        // -------------------- Helpers --------------------
+
+        private async Task RestockIfNeeded(Item billItem)
+        {
+            // If you didn’t add MenuItemId to Item, this will always be null → no restock
+            if (billItem.MenuItemId == null || billItem.MenuItemId.Value <= 0)
+                return;
+
+            var menuItem = await _db.MenuItems.FirstOrDefaultAsync(m => m.Id == billItem.MenuItemId.Value);
+            if (menuItem == null)
+                return;
+
+            // Only restock limited items (null = unlimited)
+            if (menuItem.StockQuantity.HasValue)
+                menuItem.StockQuantity = menuItem.StockQuantity.Value + 1;
+        }
 
         private static TableDto MapTableToDto(Table table)
         {
@@ -423,6 +455,7 @@ namespace Bar.WebApi.Controllers
                 Open: table.open,
                 Total: bill.total,
                 Items: bill.items?.Select(i => new BillItemDto(
+                    MenuItemId: i.MenuItemId,
                     Name: i.name,
                     Category: i.category,
                     Price: i.price
@@ -430,53 +463,4 @@ namespace Bar.WebApi.Controllers
             );
         }
     }
-
-    // DTOs
-
-    public record TableDto(
-        int Id,
-        string Name,
-        bool Open,
-        decimal Total,
-        IEnumerable<BillItemDto> Items
-    );
-
-    public record TableSummaryDto(
-        int Id,
-        string Name,
-        decimal Total,
-        bool Open
-    );
-
-    public record BillItemDto(
-        string Name,
-        string Category,
-        decimal Price
-    );
-
-    public record AddItemRequest
-    {
-        public int? MenuItemId { get; init; }
-        public string? Name { get; init; }
-        public string? Category { get; init; }
-        public decimal? Price { get; init; }
-    }
-
-
-    public record CloseTableRequest(
-        string PaymentMethod,
-        decimal? Tip,
-        decimal? DiscountPercent
-    );
-
-    public record MoveToTableRequest(
-        int TargetTableId
-    );
-
-    public record PayItemsRequest(
-        string PaymentMethod,
-        decimal? Tip,
-        List<int> ItemIndexes,
-        decimal? DiscountPercent
-    );
 }

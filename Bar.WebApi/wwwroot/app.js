@@ -232,6 +232,13 @@ function renderMenuGrid() {
         items = items.filter(i => i.category === currentCategory);
     }
 
+    // Filter by search term (name)
+    if (menuSearchTerm) {
+        items = items.filter(i =>
+            (i.name || "").toLowerCase().includes(menuSearchTerm)
+        );
+    }
+
     items.forEach(item => {
         const card = document.createElement("div");
         card.className = "menu-item";
@@ -723,10 +730,15 @@ async function removeSelectedItems() {
         })
     });
 
-    await loadTables();
-    await loadRegister();  // optional, but keeps "Pending" nice and accurate
-    await loadTableDetails(currentTableId);
+    // IMPORTANT: refresh menu so stock numbers update after restock
+    await Promise.all([
+        loadTables(),
+        loadRegister(),
+        loadTableDetails(currentTableId),
+        loadMenu()
+    ]);
 }
+
 
 // -------- Actions: add item, pay, move --------
 
@@ -1218,4 +1230,35 @@ async function adminSaveAll() {
         alert(err.message || "Save failed.");
     }
 }
+
+function onMenuSearchChange(value) {
+    menuSearchTerm = (value || "").trim().toLowerCase();
+    renderMenuGrid();
+}
+
+async function closeRegister() {
+    try {
+        // Get register first to check pending
+        const reg = await fetchJson(apiBase + "/api/register");
+
+        if (reg.pending !== 0) {
+            alert("Cannot close register. Pending must be 0.00 €");
+            return;
+        }
+
+        if (!confirm("Close register and reset Cash/Card/Tips to 0?")) {
+            return;
+        }
+
+        await fetchJson(apiBase + "/api/register/close", {
+            method: "POST"
+        });
+
+        await loadRegister();
+        alert("Register closed and reset.");
+    } catch (err) {
+        alert(err.message || "Could not close register.");
+    }
+}
+
 

@@ -79,15 +79,35 @@ namespace BarBillHolderLibrary.Database
         private static List<Item> ParseItemsFromJSON(JsonElement itemsJSON)
         {
             List<Item> items = new();
-            for (int i=0; i< itemsJSON.GetArrayLength(); i++ )
+
+            for (int i = 0; i < itemsJSON.GetArrayLength(); i++)
             {
-                items.Add(new Item(
-                                    itemsJSON[i].GetProperty("name").ToString(),
-                                    itemsJSON[i].GetProperty("category").ToString(),
-                                    decimal.Parse(itemsJSON[i].GetProperty("price").ToString()),
-                                    Item.Status.Parse<Item.Status>(itemsJSON[i].GetProperty("status").ToString())
-                                    ));
+                var itemJson = itemsJSON[i];
+
+                var item = new Item(
+                    itemJson.GetProperty("name").ToString(),
+                    itemJson.GetProperty("category").ToString(),
+                    decimal.Parse(itemJson.GetProperty("price").ToString()),
+                    Item.Status.Parse<Item.Status>(itemJson.GetProperty("status").ToString())
+                );
+
+                // NEW: restore menuItemId if present (older files won't have it)
+                if (itemJson.TryGetProperty("menuItemId", out var midProp))
+                {
+                    if (midProp.ValueKind == JsonValueKind.Number)
+                    {
+                        item.MenuItemId = midProp.GetInt32();
+                    }
+                    else if (midProp.ValueKind == JsonValueKind.String &&
+                             int.TryParse(midProp.GetString(), out var parsed))
+                    {
+                        item.MenuItemId = parsed;
+                    }
+                }
+
+                items.Add(item);
             }
+
             return items;
         }
 

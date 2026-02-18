@@ -20,6 +20,7 @@ namespace BarBillHolderLibrary
 
         public Status status { get; set; }
 
+        public int? MenuItemId { get; set; } // null for custom/manual items if you ever add those
 
         public Item(string name, string category, decimal price, Status status)
         {
