@@ -31,10 +31,10 @@
             base.isCustomer = false;
         }
 
-        public Table(int ID, bool open, Bill bill)
+        public Table(int ID, bool open, Bill bill, string name)
         {
             this.ID = ID;
-            this.name = this.SetName(ID);
+            this.name = name;
             this.open = open;
             this.bill = bill;
             base.isCustomer = false;
@@ -43,11 +43,11 @@
         {
             if (ID == 13)
             {
-                return "Table Window";
+                return "Window";
             }
             else if (ID == 14)
             {
-                return "Table Stand";
+                return "Stand";
             }
             else
             {

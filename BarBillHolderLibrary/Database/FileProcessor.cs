@@ -138,7 +138,8 @@ namespace BarBillHolderLibrary.Database
                     tables.Add(new Table(
                         id,
                         true,
-                        ParseBillFromJSON(tJson.GetProperty("bill"))
+                        ParseBillFromJSON(tJson.GetProperty("bill")),
+                        tJson.GetProperty("name").ToString()
                     ));
                 }
                 else
