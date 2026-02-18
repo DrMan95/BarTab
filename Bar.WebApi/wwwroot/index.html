@@ -84,23 +84,28 @@
                         <button class="btn btn-ghost btn-sm" onclick="openMenuAdmin()">
                             ⚙ Menu Admin
                         </button>
-
                     </div>
                 </div>
 
-                <div class="menu-toolbar">
-                    <div class="menu-toolbar-left">
-                        <div id="menu-filters" class="menu-filter-bar"></div>
+                <!-- IMPORTANT: keep menu-content + menu-grid -->
+                <div id="menu-content" class="card-scroll">
+                    <div class="menu-toolbar">
+                        <div class="menu-toolbar-left">
+                            <div id="menu-filters" class="menu-filter-bar"></div>
+                        </div>
+
+                        <div class="menu-search">
+                            <span class="menu-search-icon">🔍</span>
+                            <input id="menu-search-input"
+                                   class="menu-search-input"
+                                   type="text"
+                                   placeholder="Search by name..."
+                                   oninput="onMenuSearchChange(this.value)" />
+                        </div>
                     </div>
 
-                    <div class="menu-search">
-                        <span class="menu-search-icon">🔍</span>
-                        <input id="menu-search-input"
-                               class="menu-search-input"
-                               type="text"
-                               placeholder="Search by name..."
-                               oninput="onMenuSearchChange(this.value)" />
-                    </div>
+                    <!-- THIS is what renderMenuGrid needs -->
+                    <div id="menu-grid" class="menu-grid"></div>
                 </div>
             </div>
         </main>
