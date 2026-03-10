@@ -5,6 +5,37 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Admin/verify": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/debug/state": {
       "get": {
         "tags": [
@@ -386,6 +417,18 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Register/close": {
+      "post": {
+        "tags": [
+          "Register"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -917,9 +960,24 @@
         },
         "additionalProperties": false
       },
+      "AdminLoginRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BillItemDto": {
         "type": "object",
         "properties": {
+          "menuItemId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "name": {
             "type": "string",
             "nullable": true

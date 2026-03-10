@@ -1,4 +1,5 @@
 using Bar.WebApi.Data;
+using Bar.WebApi.Hubs;
 using BarBillHolderLibrary;
 using BarBillHolderLibrary.Database;
 using BarBillHolderLibrary.Models;
@@ -9,7 +10,10 @@ using BarState = BarBillHolderLibrary.Models.Bar;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Controllers + camelCase JSON (so JS sees id/name/open/total)
+// Listen on all network interfaces so phone/tablet can access it too
+builder.WebHost.UseUrls("http://0.0.0.0:5123");
+
+// Controllers + camelCase JSON
 builder.Services.AddControllers()
     .AddJsonOptions(o =>
     {
@@ -22,7 +26,13 @@ builder.Services.AddSwaggerGen();
 
 // SQLite EF Core
 var connectionString = $"Data Source={Path.Combine(builder.Environment.ContentRootPath, "bar.db")}";
-builder.Services.AddDbContext<BarDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<BarDbContext>(options =>
+{
+    options.UseSqlite(connectionString);
+});
+
+// SignalR
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -33,7 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// IMPORTANT: keep this disabled for now since you're serving plain HTTP on LAN
+// app.UseHttpsRedirection();
 
 // Serve index.html from wwwroot
 app.UseDefaultFiles();
@@ -41,19 +52,28 @@ app.UseStaticFiles();
 
 app.MapControllers();
 
+// SignalR hub endpoint
+app.MapHub<BarHub>("/barhub");
+
+// Optional debug endpoint
 app.MapGet("/debug/state", async (BarDbContext db) =>
 {
     var menuCount = await db.MenuItems.CountAsync();
     var activeMenuCount = await db.MenuItems.CountAsync(m => m.Active);
-    var tablesCount = BarBillHolderLibrary.Models.Bar.tables?.Count ?? 0;
+    var tablesCount = BarState.tables?.Count ?? 0;
 
-    return Results.Ok(new { menuCount, activeMenuCount, tablesCount });
+    return Results.Ok(new
+    {
+        menuCount,
+        activeMenuCount,
+        tablesCount
+    });
 });
 
-// IMPORTANT: initialize/load Bar state from file before requests come in
+// Load bar state
 InitializeBarState(app.Environment.ContentRootPath);
 
-// Seed DB menu
+// Seed menu if needed
 await MenuSeeder.SeedMenuAsync(app.Services);
 
 app.Run();
@@ -82,8 +102,10 @@ static void InitializeBarState(string contentRootPath)
     BarState.tables ??= new List<Table>();
 
     for (int i = 1; i <= 14; i++)
+    {
         if (!BarState.tables.Any(t => t.ID == i))
             BarState.tables.Add(new Table(i));
+    }
 
     BarState.tables = BarState.tables.OrderBy(t => t.ID).ToList();
     BarState.register ??= new Register(0m, 0m, 0m);

@@ -8,10 +8,16 @@
 </head>
 <body>
     <div id="app">
-        <aside class="sidebar">
+        <aside class="sidebar" id="tables-panel">
             <div class="sidebar-top">
                 <h1 style="font-size:1.1rem;margin-bottom:.2rem;">🍸 BarakiBar</h1>
                 <div style="font-size:.8rem;color:#9ca3af;margin-bottom:1rem;">Web PDA</div>
+
+                <div id="mobile-nav" class="mobile-nav">
+                    <button id="mobile-btn-tables" class="btn btn-ghost btn-sm" onclick="scrollToSection('tables-panel', 'tables')">Tables</button>
+                    <button id="mobile-btn-order" class="btn btn-ghost btn-sm" onclick="scrollToSection('table-card', 'order')">Order</button>
+                    <button id="mobile-btn-menu" class="btn btn-sm" onclick="scrollToSection('menu-card', 'menu')">Menu</button>
+                </div>
 
                 <div class="section-title">Tables</div>
                 <ul id="tables-list"></ul>
@@ -155,6 +161,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

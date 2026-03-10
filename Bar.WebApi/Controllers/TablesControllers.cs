@@ -1,8 +1,10 @@
 ﻿using Bar.WebApi.Data;
+using Bar.WebApi.Hubs;
 using BarBillHolderLibrary;          // Item, Customer
 using BarBillHolderLibrary.Database; // FileProcessor
 using BarBillHolderLibrary.Models;   // Bar, Table, Bill, Register
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 using BarState = BarBillHolderLibrary.Models.Bar;
@@ -17,9 +19,12 @@ namespace Bar.WebApi.Controllers
 
         private readonly BarDbContext _db;
 
-        public TablesController(BarDbContext db)
+        private readonly IHubContext<BarHub> _hub;
+
+        public TablesController(BarDbContext db, IHubContext<BarHub> hub)
         {
             _db = db;
+            _hub = hub;
         }
 
         // -------------------- DTOs / Requests --------------------
@@ -66,7 +71,7 @@ namespace Bar.WebApi.Controllers
             bool Open
         );
 
-        // ✅ add MenuItemId so we can debug / extend later (frontend can ignore it)
+        // add MenuItemId so we can debug / extend later (frontend can ignore it)
         public record BillItemDto(
             int? MenuItemId,
             string Name,
@@ -111,6 +116,7 @@ namespace Bar.WebApi.Controllers
             table.name = newName;
 
             await FileProcessor.SaveBarInstanceAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return NoContent();
         }
 
@@ -146,6 +152,7 @@ namespace Bar.WebApi.Controllers
 
             BarState.tables.Add(newTable);
             await FileProcessor.SaveBarInstanceAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
 
             var dto = new TableSummaryDto(
                 Id: newTable.ID,
@@ -191,13 +198,13 @@ namespace Bar.WebApi.Controllers
 
                 var item = new Item(menuItem.Name, menuItem.Category, menuItem.Price, Item.Status.UNDONE)
                 {
-                    // ✅ CRITICAL: remember where this came from so we can restock on cancel
                     MenuItemId = menuItem.Id
                 };
 
                 table.bill.AddItem(item);
 
                 await FileProcessor.SaveBarInstanceAsync();
+                await _hub.Clients.All.SendAsync("RefreshAll");
                 return Ok(MapTableToDto(table));
             }
 
@@ -219,6 +226,7 @@ namespace Bar.WebApi.Controllers
             table.bill.AddItem(fallbackItem);
 
             await FileProcessor.SaveBarInstanceAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return Ok(MapTableToDto(table));
         }
 
@@ -270,6 +278,7 @@ namespace Bar.WebApi.Controllers
                 table.Remove();
 
             await FileProcessor.SaveBarInstanceAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return NoContent();
         }
 
@@ -317,6 +326,7 @@ namespace Bar.WebApi.Controllers
                 table.open = false;
 
             await FileProcessor.SaveBarInstanceAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return Ok(MapTableToDto(table));
         }
 
@@ -390,6 +400,7 @@ namespace Bar.WebApi.Controllers
                 table.open = false;
 
             await FileProcessor.SaveBarInstanceAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return Ok(MapTableToDto(table));
         }
 
@@ -425,6 +436,7 @@ namespace Bar.WebApi.Controllers
             source.Remove();
 
             await FileProcessor.SaveBarInstanceAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return NoContent();
         }
 

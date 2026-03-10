@@ -1,6 +1,8 @@
 ﻿using Bar.WebApi.Data;
 using Bar.WebApi.Data.Entities;
+using Bar.WebApi.Hubs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bar.WebApi.Controllers
@@ -11,9 +13,12 @@ namespace Bar.WebApi.Controllers
     {
         private readonly BarDbContext _context;
 
-        public MenuController(BarDbContext context)
+        private readonly IHubContext<BarHub> _hub;
+
+        public MenuController(BarDbContext context, IHubContext<BarHub> hub)
         {
             _context = context;
+            _hub = hub;
         }
 
         // JS expects: item.index, item.name, item.category, item.price, item.active
@@ -107,7 +112,6 @@ namespace Bar.WebApi.Controllers
             return Ok(categories);
         }
 
-        // POST /api/menu
         [HttpPost]
         public async Task<ActionResult<MenuItemDto>> AddMenuItem([FromBody] CreateMenuItemRequest request)
         {
@@ -138,6 +142,7 @@ namespace Bar.WebApi.Controllers
 
             _context.MenuItems.Add(entity);
             await _context.SaveChangesAsync();
+            await _hub.Clients.All.SendAsync("RefreshAll");
 
             var dto = new MenuItemDto
             {
@@ -162,7 +167,7 @@ namespace Bar.WebApi.Controllers
 
             _context.MenuItems.Remove(item);
             await _context.SaveChangesAsync();
-
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return NoContent();
         }
 
@@ -188,7 +193,7 @@ namespace Bar.WebApi.Controllers
                 item.StockQuantity = null;
 
             await _context.SaveChangesAsync();
-
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return Ok(new MenuItemDto
             {
                 index = item.Id,

@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "Bar.WebApi.Controllers.AdminController",
+    "Method": "Verify",
+    "RelativePath": "api/Admin/verify",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Bar.WebApi.Controllers.AdminController\u002BAdminLoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Bar.WebApi.Controllers.CustomersController",
     "Method": "GetAll",
     "RelativePath": "api/Customers",
@@ -219,6 +235,16 @@
     ]
   },
   {
+    "ContainingType": "Bar.WebApi.Controllers.RegisterController",
+    "Method": "CloseRegister",
+    "RelativePath": "api/Register/close",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Bar.WebApi.Controllers.ReservationsController",
     "Method": "GetAll",
     "RelativePath": "api/Reservations",
@@ -295,7 +321,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Bar.WebApi.Controllers.TableDto, Bar.WebApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Bar.WebApi.Controllers.TablesController\u002BTableDto, Bar.WebApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -315,7 +341,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "Bar.WebApi.Controllers.TableSummaryDto",
+        "Type": "Bar.WebApi.Controllers.TablesController\u002BTableSummaryDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -341,7 +367,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Bar.WebApi.Controllers.TableDto",
+        "Type": "Bar.WebApi.Controllers.TablesController\u002BTableDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -366,7 +392,7 @@
       },
       {
         "Name": "request",
-        "Type": "Bar.WebApi.Controllers.CloseTableRequest",
+        "Type": "Bar.WebApi.Controllers.TablesController\u002BCloseTableRequest",
         "IsRequired": true
       }
     ],
@@ -387,13 +413,13 @@
       },
       {
         "Name": "request",
-        "Type": "Bar.WebApi.Controllers.AddItemRequest",
+        "Type": "Bar.WebApi.Controllers.TablesController\u002BAddItemRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Bar.WebApi.Controllers.TableDto",
+        "Type": "Bar.WebApi.Controllers.TablesController\u002BTableDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -418,7 +444,7 @@
       },
       {
         "Name": "request",
-        "Type": "Bar.WebApi.Controllers.MoveToTableRequest",
+        "Type": "Bar.WebApi.Controllers.TablesController\u002BMoveToTableRequest",
         "IsRequired": true
       }
     ],
@@ -460,7 +486,7 @@
       },
       {
         "Name": "request",
-        "Type": "Bar.WebApi.Controllers.PayItemsRequest",
+        "Type": "Bar.WebApi.Controllers.TablesController\u002BPayItemsRequest",
         "IsRequired": true
       }
     ],

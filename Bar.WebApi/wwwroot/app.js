@@ -296,7 +296,13 @@ function renderMenuGrid() {
 async function selectTable(id) {
     currentTableId = id;
     await loadTableDetails(id);
-    await loadTables(); // refresh highlighting & totals
+    await loadTables();
+
+    if (isMobileLayout()) {
+        setTimeout(() => {
+            scrollToSection("table-card", "order");
+        }, 120);
+    }
 }
 
 async function saveCurrentTableName(newName) {
@@ -634,6 +640,20 @@ async function loadTableDetails(id) {
 
     // initial selected summary
     updateSelectedSummary();
+
+    if (isMobileLayout()) {
+        const existingJumpBtn = document.getElementById("jump-to-menu-btn");
+        if (!existingJumpBtn) {
+            const jumpBtn = document.createElement("button");
+            jumpBtn.id = "jump-to-menu-btn";
+            jumpBtn.className = "btn btn-primary";
+            jumpBtn.textContent = "Go to Menu";
+            jumpBtn.style.marginTop = ".75rem";
+            jumpBtn.onclick = () => scrollToSection("menu-card", "menu");
+
+            content.appendChild(jumpBtn);
+        }
+    }
 }
 
 function updateSelectedSummary() {
@@ -877,23 +897,150 @@ async function refreshAll() {
     ]);
 }
 
-// init
-window.addEventListener("load", () => {
-    refreshAll().catch(err => console.error(err));
+let barHubConnection = null;
+let liveSyncStarted = false;
+
+function setLiveDebug(text) {
+    console.log("[LiveSync]", text);
+
+    let el = document.getElementById("debug-live");
+    if (!el) {
+        el = document.createElement("div");
+        el.id = "debug-live";
+        el.style.position = "fixed";
+        el.style.bottom = "8px";
+        el.style.right = "8px";
+        el.style.zIndex = "99999";
+        el.style.background = "rgba(2,6,23,.92)";
+        el.style.color = "#93c5fd";
+        el.style.padding = "6px 8px";
+        el.style.border = "1px solid #1f2937";
+        el.style.borderRadius = "8px";
+        el.style.fontSize = "11px";
+        el.style.maxWidth = "60vw";
+        document.body.appendChild(el);
+    }
+
+    el.textContent = "Live: " + text;
+}
+
+async function connectLiveSync() {
+    if (typeof signalR === "undefined") {
+        setLiveDebug("signalR missing");
+        return;
+    }
+
+    barHubConnection = new signalR.HubConnectionBuilder()
+        .withUrl(`${window.location.origin}/barhub`, {
+            transport:
+                signalR.HttpTransportType.WebSockets |
+                signalR.HttpTransportType.ServerSentEvents |
+                signalR.HttpTransportType.LongPolling
+        })
+        .withAutomaticReconnect([0, 1000, 3000, 5000, 10000])
+        .build();
+
+    barHubConnection.on("RefreshAll", async () => {
+        setLiveDebug("refresh received");
+        try {
+            await loadTables();
+            await loadRegister();
+            await loadMenu();
+
+            if (currentTableId !== null) {
+                await loadTableDetails(currentTableId);
+            }
+        } catch (err) {
+            console.error("Live sync refresh failed:", err);
+            setLiveDebug("refresh failed");
+        }
+    });
+
+    barHubConnection.onreconnecting(() => {
+        setLiveDebug("reconnecting...");
+    });
+
+    barHubConnection.onreconnected(() => {
+        setLiveDebug("reconnected");
+    });
+
+    barHubConnection.onclose(() => {
+        setLiveDebug("closed");
+    });
+
+    await barHubConnection.start();
+    setLiveDebug("connected");
+}
+
+async function startLiveSync() {
+    if (liveSyncStarted) return;
+    liveSyncStarted = true;
+
+    try {
+        await connectLiveSync();
+    } catch (err) {
+        console.error("SignalR connection failed:", err);
+        setLiveDebug("connect failed");
+    }
+}
+
+// Reconnect when iPhone/browser tab becomes active again
+document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState === "visible") {
+        try {
+            if (!barHubConnection || barHubConnection.state === "Disconnected") {
+                setLiveDebug("reconnect on visible");
+                await connectLiveSync();
+            }
+        } catch (err) {
+            console.error("Reconnect on visible failed:", err);
+        }
+    }
 });
 
-function openMenuAdmin() {
+window.addEventListener("focus", async () => {
+    try {
+        if (!barHubConnection || barHubConnection.state === "Disconnected") {
+            setLiveDebug("reconnect on focus");
+            await connectLiveSync();
+        }
+    } catch (err) {
+        console.error("Reconnect on focus failed:", err);
+    }
+});
 
-    adminSearchTerm = "";
-    const input = document.getElementById("admin-search-input");
-    if (input) input.value = "";
+window.addEventListener("load", () => {
+    refreshAll().catch(err => console.error(err));
+    startLiveSync().catch(err => console.error(err));
 
-    const modal = document.getElementById("menu-admin-modal");
-    modal.style.display = "flex";
-    loadMenuAdmin().catch(err => {
+    if (isMobileLayout()) {
+        setActiveMobileNav("tables");
+    }
+});
+
+async function openMenuAdmin() {
+    const password = prompt("Enter admin password:");
+    if (password === null) return; // user cancelled
+
+    try {
+        await fetchJson(apiBase + "/api/admin/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: password })
+        });
+
+        adminSearchTerm = "";
+        const input = document.getElementById("admin-search-input");
+        if (input) input.value = "";
+
+        const modal = document.getElementById("menu-admin-modal");
+        modal.style.display = "flex";
+
+        await loadMenuAdmin();
+    } catch (err) {
         console.error(err);
-        alert("Could not load menu admin.");
-    });
+        alert(err.message || "Wrong admin password.");
+    }
 }
 
 function closeMenuAdmin() {
@@ -1261,4 +1408,76 @@ async function closeRegister() {
     }
 }
 
+function isMobileLayout() {
+    return window.innerWidth <= 900;
+}
 
+function setActiveMobileNav(section) {
+    const btnTables = document.getElementById("mobile-btn-tables");
+    const btnOrder = document.getElementById("mobile-btn-order");
+    const btnMenu = document.getElementById("mobile-btn-menu");
+
+    [btnTables, btnOrder, btnMenu].forEach(btn => {
+        if (btn) {
+            btn.classList.remove("active");
+            btn.classList.remove("btn-primary");
+            btn.classList.add("btn-ghost");
+        }
+    });
+
+    let activeBtn = null;
+
+    if (section === "tables") activeBtn = btnTables;
+    if (section === "order") activeBtn = btnOrder;
+    if (section === "menu") activeBtn = btnMenu;
+
+    if (activeBtn) {
+        activeBtn.classList.add("active");
+        activeBtn.classList.remove("btn-ghost");
+        activeBtn.classList.add("btn-primary");
+    }
+}
+
+function scrollToSection(sectionId, mobileSection = null) {
+    const el = document.getElementById(sectionId);
+    if (!el) return;
+
+    el.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+    if (mobileSection) {
+        setActiveMobileNav(mobileSection);
+    }
+}
+
+function updateMobileNavByScroll() {
+    if (!isMobileLayout()) return;
+
+    const tables = document.getElementById("tables-panel");
+    const order = document.getElementById("table-card");
+    const menu = document.getElementById("menu-card");
+
+    if (!tables || !order || !menu) return;
+
+    const orderTop = Math.abs(order.getBoundingClientRect().top);
+    const menuTop = Math.abs(menu.getBoundingClientRect().top);
+    const tablesTop = Math.abs(tables.getBoundingClientRect().top);
+
+    let current = "tables";
+    let minTop = tablesTop;
+
+    if (orderTop < minTop) {
+        current = "order";
+        minTop = orderTop;
+    }
+
+    if (menuTop < minTop) {
+        current = "menu";
+    }
+
+    setActiveMobileNav(current);
+}
+
+window.addEventListener("scroll", updateMobileNavByScroll, { passive: true });

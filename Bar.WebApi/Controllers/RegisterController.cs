@@ -1,7 +1,9 @@
-﻿using BarBillHolderLibrary;
+﻿using Bar.WebApi.Hubs;
+using BarBillHolderLibrary;
 using BarBillHolderLibrary.Database;
 using BarBillHolderLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Bar.WebApi.Controllers
 {
@@ -9,6 +11,12 @@ namespace Bar.WebApi.Controllers
     [Route("api/[controller]")]
     public class RegisterController : ControllerBase
     {
+        private readonly IHubContext<BarHub> _hub;
+
+        public RegisterController(IHubContext<BarHub> hub)
+        {
+            _hub = hub;
+        }
         // GET: api/register
         [HttpGet]
         public ActionResult<RegisterDto> GetRegister()
@@ -87,7 +95,7 @@ namespace Bar.WebApi.Controllers
 
             // Persist to your bar JSON file
             await FileProcessor.SaveBarInstanceAsync();
-
+            await _hub.Clients.All.SendAsync("RefreshAll");
             return NoContent();
         }
     }
