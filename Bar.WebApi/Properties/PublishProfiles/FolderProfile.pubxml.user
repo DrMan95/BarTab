@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2026-05-13T12:31:50.3386503Z;True|2026-05-13T15:09:45.0066515+03:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="wwwroot/app.js">
+      <publishTime>05/16/2026 18:15:16</publishTime>
+    </File>
+    <File Include="wwwroot/index.html">
+      <publishTime>03/26/2026 15:25:38</publishTime>
+    </File>
+    <File Include="wwwroot/styles.css">
+      <publishTime>03/26/2026 15:25:38</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

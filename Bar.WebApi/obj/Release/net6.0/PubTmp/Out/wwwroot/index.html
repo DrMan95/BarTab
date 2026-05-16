@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>BarakiBar - Web PDA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="app">
+        <aside class="sidebar" id="tables-panel">
+            <div class="sidebar-top">
+                <h1 style="font-size:1.1rem;margin-bottom:.2rem;">🍸 BarakiBar</h1>
+                <div style="font-size:.8rem;color:#9ca3af;margin-bottom:1rem;">Web PDA</div>
+
+                <div id="mobile-nav" class="mobile-nav">
+                    <button id="mobile-btn-tables" class="btn btn-ghost btn-sm" onclick="scrollToSection('tables-panel', 'tables')">Tables</button>
+                    <button id="mobile-btn-order" class="btn btn-ghost btn-sm" onclick="scrollToSection('table-card', 'order')">Order</button>
+                    <button id="mobile-btn-menu" class="btn btn-sm" onclick="scrollToSection('menu-card', 'menu')">Menu</button>
+                </div>
+
+                <div class="section-title">Tables</div>
+                <ul id="tables-list"></ul>
+
+                <div class="form-row" style="margin-top:.35rem;">
+                    <button class="btn btn-primary btn-sm" style="width:100%;" onclick="createTable()">
+                        Add bar table
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-bottom">
+                <div class="section-title">Register</div>
+                <div id="register-card" class="card" style="padding:.6rem .7rem;">
+                    <div class="register-grid">
+                        <div>
+                            <div class="reg-label">Cash</div>
+                            <div class="money" id="reg-cash">-</div>
+                        </div>
+                        <div>
+                            <div class="reg-label">Card</div>
+                            <div class="money" id="reg-card">-</div>
+                        </div>
+                        <div>
+                            <div class="reg-label">Tips</div>
+                            <div class="money" id="reg-tips">-</div>
+                        </div>
+                        <div>
+                            <div class="reg-label">Pending</div>
+                            <div class="money" id="reg-pending">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-ghost btn" style="width:100%;" onclick="refreshAll()">⟳ Refresh</button>
+                <button class="btn btn-ghost" style="width:100%; margin-top:.35rem;" onclick="closeRegister()">
+                    Close register (reset)
+                </button>
+
+            </div>
+        </aside>
+
+        <main class="main">
+            <div class="card card-column" id="table-card">
+                <div class="card-header">
+                    <div>
+                        <h2 id="table-title">Select a table</h2>
+                        <div style="font-size:.8rem;color:#9ca3af;" id="table-subtitle">
+                            No table selected.
+                        </div>
+                    </div>
+                    <div id="table-status"></div>
+                </div>
+
+                <div id="table-content" class="card-scroll">
+                    <p style="font-size:.85rem;color:#9ca3af;">
+                        Choose a table from the list on the left to see its current order.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card card-column" id="menu-card">
+                <div class="card-header">
+                    <h3>Menu</h3>
+                    <div>
+                        <span class="badge" id="menu-count">0 items</span>
+                        <span style="margin-left:.4rem;font-size:.75rem;color:#9ca3af;">
+                            Click a table, then add items from here.
+                        </span>
+                        <button class="btn btn-ghost btn-sm" onclick="openMenuAdmin()">
+                            ⚙ Menu Admin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- IMPORTANT: keep menu-content + menu-grid -->
+                <div id="menu-content" class="card-scroll">
+                    <div class="menu-toolbar">
+                        <div class="menu-toolbar-left">
+                            <div id="menu-filters" class="menu-filter-bar"></div>
+                        </div>
+
+                        <div class="menu-search">
+                            <span class="menu-search-icon">🔍</span>
+                            <input id="menu-search-input"
+                                   class="menu-search-input"
+                                   type="text"
+                                   placeholder="Search by name..."
+                                   oninput="onMenuSearchChange(this.value)" />
+                        </div>
+                    </div>
+
+                    <!-- THIS is what renderMenuGrid needs -->
+                    <div id="menu-grid" class="menu-grid"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div id="menu-admin-modal" class="modal-backdrop" style="display:none;">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title">Menu Admin (SQLite)</div>
+                    <div class="modal-subtitle">Edit items and stock. Save writes to bar.db.</div>
+                </div>
+                <button class="btn btn-ghost btn-sm" onclick="closeMenuAdmin()">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div style="display:flex; gap:.5rem; align-items:center; margin-bottom:.6rem;">
+                    <button class="btn btn-primary btn-sm" onclick="adminAddNewRow()">+ New item</button>
+                    <button class="btn btn-ghost btn-sm" onclick="loadMenuAdmin()">⟳ Reload</button>
+                    <button class="btn btn-primary btn-sm" onclick="adminSaveAll()">
+                        💾 Save all changes
+                    </button>
+                    <div style="margin-left:auto; font-size:.75rem; color:#9ca3af;" id="admin-status"></div>
+                </div>
+
+                <div class="admin-grid-header">
+                    <div>Name</div>
+                    <div>Category</div>
+                    <div style="text-align:right;">Price</div>
+                    <div style="text-align:right;">Stock</div>
+                    <div style="text-align:center;">Active</div>
+                    <div style="text-align:right;">Actions</div>
+                </div>
+                <div class="menu-search" style="margin:.5rem 0 .75rem 0; width:100%;">
+                    <span class="menu-search-icon">🔍</span>
+                    <input id="admin-search-input"
+                           class="menu-search-input"
+                           type="text"
+                           placeholder="Search by name..."
+                           oninput="onAdminSearchChange(this.value)" />
+                </div>
+                <div id="admin-rows" class="admin-rows"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeMenuAdmin()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "Hash": "ubwWeNaa0ak2Fa6tg0sVh/0DHUDpc6RrtrL4krHm2OE=",
+  "Source": "Bar.WebApi",
+  "BasePath": "_content/Bar.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Bar.WebApi\\wwwroot",
+      "Source": "Bar.WebApi",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\app.js",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "app.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\app.js"
+    },
+    {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\index.html",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\styles.css",
+      "SourceId": "Bar.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mattheos\\source\\repos\\BarTab\\Bar.WebApi\\wwwroot\\",
+      "BasePath": "_content/Bar.WebApi",
+      "RelativePath": "styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\styles.css"
+    }
+  ]
+}
